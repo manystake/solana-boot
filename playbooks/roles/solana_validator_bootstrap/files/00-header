@@ -1,0 +1,15 @@
+#!/bin/sh
+
+[ -r /etc/lsb-release ] && . /etc/lsb-release
+
+if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
+        # Fall back to using the very slow lsb_release utility
+        DISTRIB_DESCRIPTION=$(lsb_release -s -d)
+fi
+
+echo '   _____ ____  __    ___    _   _____       _    _____    __    ________  ___  __________  ____'
+echo '  / ___// __ \/ /   /   |  / | / /   |     | |  / /   |  / /   /  _/ __ \/   |/_  __/ __ \/ __ \'
+echo '  \__ \/ / / / /   / /| | /  |/ / /| |     | | / / /| | / /    / // / / / /| | / / / / / / /_/ /'
+echo ' ___/ / /_/ / /___/ ___ |/ /|  / ___ |     | |/ / ___ |/ /____/ // /_/ / ___ |/ / / /_/ / _, _/'
+echo '/____/\____/_____/_/  |_/_/ |_/_/  |_|     |___/_/  |_/_____/___/_____/_/  |_/_/  \____/_/ |_|'
+echo '                                                      powered by latitude.sh and manystake.com'

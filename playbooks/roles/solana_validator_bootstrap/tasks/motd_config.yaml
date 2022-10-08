@@ -1,0 +1,87 @@
+---
+
+- name: Update header
+  copy:
+    src: 00-header
+    dest: /etc/update-motd.d/00-header
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: Add Solana hints
+  copy:
+    src: 01-solana-hints
+    dest: /etc/update-motd.d/01-solana-hints
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: Disable 10-help-text
+  file:
+    path: /etc/update-motd.d/10-help-text
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 50-motd-news
+  file:
+    path: /etc/update-motd.d/50-motd-news
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 85-fwupd
+  file:
+    path: /etc/update-motd.d/85-fwupd
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 88-esm-announce
+  file:
+    path: /etc/update-motd.d/88-esm-announce
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 91-contract-ua-esm-status
+  file:
+    path: /etc/update-motd.d/91-contract-ua-esm-status
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 91-release-upgrade
+  file:
+    path: /etc/update-motd.d/91-release-upgrade
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 92-unattended-upgrades
+  file:
+    path: /etc/update-motd.d/92-unattended-upgrades
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 95-hwe-eol
+  file:
+    path: /etc/update-motd.d/95-hwe-eol
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 97-overlayroot
+  file:
+    path: /etc/update-motd.d/97-overlayroot
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Disable 98-fsck-at-reboot
+  file:
+    path: /etc/update-motd.d/98-fsck-at-reboot
+    owner: root
+    group: root
+    mode: '0600'

@@ -1,0 +1,17 @@
+#cloud-config
+version: v1
+packages_update: true
+packages_upgrade: true
+
+# if you're already installing other packages, you may
+# wish to manually install ansible to avoid multiple calls
+# to your package manager
+packages:
+  - git
+  - curl
+  - unzip
+runcmd:
+  - apt update
+  - apt install git curl unzip ansible fail2ban --yes
+  - git clone -b v0.0.15 https://github.com/JulI0-concerto/latitude_manager.git /root/latitude_manager
+  - cd /root/latitude_manager && ./scripts/init_validator.sh -c testnet -r 200 -s 64 -v v0.0.15

@@ -1,0 +1,31 @@
+---
+- name: Set cluster environment
+  import_tasks: cluster_environment.yaml
+  tags:
+    - validator.manage.cluster
+
+- name: Confugure validator
+  import_tasks: configure_validator.yaml
+  tags:
+    - validator.manage.config
+
+- name: Create sys-tuner service
+  import_tasks: sys-tuner.service.yaml
+  tags:
+    - validator.service.sys-tuner
+
+- name: Setup logrotate
+  import_tasks: logrotate.yaml
+  tags:
+    - validator.logrotate
+
+- name: Create solana validator service
+  import_tasks: solana-validator.service.yaml
+  tags:
+    - validator.service.solana
+    -
+- name: Custom Motd config
+  import_tasks: motd_config.yaml
+  tags:
+    - validator.service.solana
+
