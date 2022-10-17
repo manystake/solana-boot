@@ -3,7 +3,6 @@
   hosts: all
   become: yes
   roles:
-    - solana_config
     - check_node
     - configure_ubuntu
     - solana_cli
