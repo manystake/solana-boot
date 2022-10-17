@@ -25,13 +25,13 @@ init_validator () {
 
   echo "install_ansible ${1} ${2} ${3}" >> init_validator.t
 
-  ansible-playbook --connection=local --inventory ./playbooks/inventory/"${1}".yaml --limit localhost  \
-    playbooks/bootstrap_validator.yaml \
-    playbooks/config.yaml --extra-vars "{ \
-        'swap_file_size_gb': ${2}, \
-        'ramdisk_size_gb': ${3}, \
-        }" \
-    --extra-vars "@/etc/latitude_manager/latitude_manager.conf" "$SOLANA_VERSION"
+  ansible-playbook --connection=local --inventory ./playbooks/inventory/"${1}".yaml --limit localhost  playbooks/config.yaml --extra-vars "{ \
+    'swap_file_size_gb': ${2}, \
+    'ramdisk_size_gb': ${3}, \
+    }"
+
+  ansible-playbook --connection=local --inventory ./playbooks/inventory/"${1}".yaml --limit localhost  playbooks/bootstrap_validator.yaml --extra-vars "@/etc/latitude_manager/latitude_manager.conf" "$SOLANA_VERSION"
+
 }
 
 while getopts ":c:r:s:v:" options; do
