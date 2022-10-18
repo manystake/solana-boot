@@ -178,7 +178,8 @@ init_validator () {
     'log_level': $_arg_log_level, \
     'ramdisk_size_gb': $_arg_ramdisk_size_gb, \
     'swap_file_size_gb': $_arg_swap_file_size_gb, \
-    'secrets_path': $_arg_snapshots_path, \
+    'secrets_path': $_arg_secrets_path, \
+    'snapshots_path': $_arg_snapshots_path, \
     'solana_user': $_arg_solana_user, \
     'solana_version': $_arg_solana_version, \
     }"
