@@ -1,9 +1,10 @@
 ---
 
-#- name: Install additional packages
-#  import_tasks: packages.yaml
-#  tags:
-#    - config.packages
+- name: Install additional packages
+  import_tasks: packages.yaml
+  tags:
+    - config.packages
+  when: not do_not_install_packages
 
 - name: Create swap
   import_tasks: swap.yaml
@@ -33,14 +34,6 @@
   import_tasks: fail2ban.yaml
   tags:
     - config.fail2ban
-
-# TODO: Remove?
-- name: Create ansible user
-  import_tasks: ansible_user.yaml
-  tags:
-    - config.ansible_user
-  when:
-    - "'local' not in group_names"
 
 - name: Create solana user
   import_tasks: solana_user.yaml

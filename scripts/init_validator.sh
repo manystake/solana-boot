@@ -27,6 +27,7 @@ _arg_secrets_path="/home/solana/.secrets"
 _arg_snapshots_path="/mnt/solana/snapshots"
 _arg_solana_user="solana"
 _arg_solana_version="1.14.5"
+_arg_do_not_install_packages="off"
 
 
 print_help()
@@ -43,6 +44,7 @@ print_help()
 	printf '\t%s\n' "--snapshots_path: Solana client snapshots path (default: '/mnt/solana/snapshots')"
 	printf '\t%s\n' "--solana_user: Solana client user (default: 'solana')"
 	printf '\t%s\n' "--solana_version: Solana client version (default: '1.14.5')"
+	printf '\t%s\n' "--do-not-install-packages, --no-do-not-install-packages: Don't install ubuntu packages (off by default)"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -142,6 +144,10 @@ parse_commandline()
 			--solana_version=*)
 				_arg_solana_version="${_key##--solana_version=}"
 				;;
+      --no-do-not-install-packages|--do-not-install-packages)
+        _arg_do_not_install_packages="on"
+        test "${1:0:5}" = "--no-" && _arg_do_not_install_packages="off"
+        ;;
 			-h|--help)
 				print_help
 				exit 0
@@ -182,6 +188,7 @@ init_validator () {
     'snapshots_path': $_arg_snapshots_path, \
     'solana_user': $_arg_solana_user, \
     'solana_version': $_arg_solana_version, \
+    'do_not_install_packages': $([[ "$_arg_do_not_install_packages" == "off" ]] && echo "no" || echo "yes")
     }"
 
 }
