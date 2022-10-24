@@ -1,4 +1,9 @@
 ---
+- name: Install solana client
+  import_tasks: install_solana_client.yaml
+  tags:
+    - cli.install
+
 - name: Set cluster environment
   import_tasks: cluster_environment.yaml
   tags:
@@ -9,11 +14,6 @@
   tags:
     - validator.manage.config
 
-- name: Create sys-tuner service
-  import_tasks: sys-tuner.service.yaml
-  tags:
-    - validator.service.sys-tuner
-
 - name: Setup logrotate
   import_tasks: logrotate.yaml
   tags:
@@ -23,9 +23,8 @@
   import_tasks: solana-validator.service.yaml
   tags:
     - validator.service.solana
-    -
+
 - name: Custom Motd config
   import_tasks: motd_config.yaml
   tags:
     - validator.service.solana
-

@@ -40,3 +40,6 @@
   tags:
     - config.solana_user
     - validator.service.solana
+
+- name: Config sysctl
+  import_tasks: sysctl.yaml

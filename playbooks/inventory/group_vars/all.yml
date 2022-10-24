@@ -37,4 +37,3 @@ swap_file_size_gb: 64
 upload_validator_keys: True
 validator_name: "{{ inventory_hostname }}"
 validator_log_path: "{{ mount_base_path }}/log"
-

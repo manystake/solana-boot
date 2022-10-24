@@ -1,17 +1,11 @@
 #cloud-config
-version: v1
-packages_update: true
-packages_upgrade: true
+apt:
+ primary:
+  - arches: [default]
+    uri: http://us.archive.ubuntu.com/ubuntu/
 
-# if you're already installing other packages, you may
-# wish to manually install ansible to avoid multiple calls
-# to your package manager
-packages:
-  - git
-  - curl
-  - unzip
 runcmd:
   - apt update
-  - apt install git curl unzip ansible fail2ban --yes
-  - git clone -b v0.0.15 https://github.com/JulI0-concerto/latitude_manager.git /root/latitude_manager
-  - cd /root/latitude_manager && ./scripts/init_validator.sh -c testnet -r 200 -s 64 -v v0.0.15
+  - apt install git curl unzip ansible fail2ban gpg gpg-agent python3 python3-pip ufw rsyslog --yes
+  - git clone -b v0.0.6 https://github.com/manystake/solana-boot.git /root/solana-boot
+  - cd /root/solana-boot && ./scripts/init_validator.sh --ramdisk_size_gb 1 --swap_file_size_gb 1
