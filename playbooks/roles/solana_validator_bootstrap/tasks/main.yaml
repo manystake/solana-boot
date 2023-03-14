@@ -1,0 +1,49 @@
+---
+- name: check solana cli installed
+  stat:
+    path: /home/solana/.local/share/solana/install/active_release/bin/solana-install
+  register: solana_exists
+  tags:
+    - solana.cli.install
+
+- name: install solana cli
+  import_tasks: install_solana_client.yaml
+  tags:
+    - solana.cli.install
+  when: not solana_exists.stat.exists
+
+- name: Set cluster environment
+  import_tasks: cluster_environment.yaml
+  tags:
+    - validator.manage.cluster
+
+- name: Confugure validator
+  import_tasks: configure_validator.yaml
+  tags:
+    - validator.manage.config
+
+- name: Setup logrotate
+  import_tasks: logrotate.yaml
+  tags:
+    - validator.logrotate
+
+- name: Create solana validator service
+  import_tasks: solana-validator.service.yaml
+  tags:
+    - validator.service.solana
+
+- name: Create fail over script
+  import_tasks: create_node_transition_script.yaml
+  tags:
+    - failover.script
+
+- name: Create unfunded validator keypair
+  import_tasks: create_unfunded_validator_keypair.yaml
+  tags:
+    - create.unfunded_validator_keypair
+
+- name: Custom Motd config
+  import_tasks: motd_config.yaml
+  tags:
+    - validator.service.solana
+

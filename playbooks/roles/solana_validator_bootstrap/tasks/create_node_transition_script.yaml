@@ -1,0 +1,10 @@
+---
+- name: Create solana validator transition script node-transition
+  template:
+    src: node-transition.sh.j2
+    dest: /home/solana/node-transition.sh
+    mode: 0755
+    owner: solana
+    group: solana
+  tags:
+    - node-transition.script

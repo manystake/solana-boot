@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Define here the IP of the node to transition voting operation
+TRANSITIONAL_NODE_IP=
+
+# Validate that TRANSITIONAL_NODE_IP is defined
+[[ -z "$TRANSITIONAL_NODE_IP" ]] && { echo "TRANSITIONAL_NODE_IP undefined. please edit the script before using it"; exit 1; }
+# Validate that ssh connectivity is correctly setup before running transition operation
+ssh -q -o BatchMode=yes  -o StrictHostKeyChecking=no -o ConnectTimeout=5 solana@$TRANSITIONAL_NODE_IP 'exit 0'
+[ $? != 0 ] && { echo "SSH connection to $server over port 22 is not possible"; exit 1; }
+
+# Wait for a restart window
+solana-validator -l {{ ledger_path }} wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
+
+# Stop voting operation on the currently voting node
+solana-validator -l {{ ledger_path }} set-identity /home/solana/.secrets/unfunded-validator-keypair.json
+
+# Move symlink to unfunded validator keypair to prevent this node to vote concurrently in case of service restart
+ln -sf /home/solana/.secrets/unfunded-validator-keypair.json /home/solana/.secrets/validator-keypair.json
+
+# Copy the tower file to the node take over voting operation
+scp {{ ledger_path }}/tower-1_9-$(solana-keygen pubkey /home/solana/.secrets/funded-validator-keypair.json).bin solana@$TRANSITIONAL_NODE_IP:{{ ledger_path }}
+
+# Start voting operation in the transitioned node
+ssh solana@TRANSITIONAL_NODE_IP 'solana-validator -l {{ ledger_path }} set-identity --require-tower /home/solana/.secrets/funded-validator-keypair.json'
+
+# Move symlink to funded validator keypair to permit vote operation in case of service restart
+ssh solana@TRANSITIONAL_NODE_IP 'ln -sf /home/solana/.secrets/funded-validator-keypair.json /home/solana/.secrets/validator-keypair.json'
+

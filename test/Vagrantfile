@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+IMAGE_PATH = File.join(File.dirname(__FILE__), "nocloud.iso")
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  # Disable SSH password - we will use Vagrant key
+  config.ssh.password = nil
+
+  # Disable shared folders
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.network "public_network"
+
+  # Tweak virtualbox
+  config.vm.provider :virtualbox do |vb|
+    # Attach no-cloud.iso to the VM
+    vb.customize [
+                   "storageattach", :id,
+                   "--storagectl", "SCSI",
+                   "--port", "1",
+                   "--type", "dvddrive",
+                   "--medium", IMAGE_PATH
+                 ]
+
+    vb.linked_clone = true
+  end
+end

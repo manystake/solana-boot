@@ -1,0 +1,17 @@
+---
+- name: Check if unfunded_validator_keypair.json exists
+  stat:
+    path: "{{ secrets_path }}/unfunded-validator-keypair.json"
+  register: unfunded_validator_keypair
+  tags:
+    - create.unfunded_validator_keypair
+
+- name: Create an unfunded validator keypair to transition between active voting and none voting node
+  shell: solana-keygen new -s --no-bip39-passphrase -o {{ secrets_path }}/unfunded-validator-keypair.json
+  become: yes
+  become_user: "{{ solana_user}}"
+  environment:
+    PATH: "{{ env_path }}"
+  when: not unfunded_validator_keypair.stat.exists
+  tags:
+    - create.unfunded_validator_keypair

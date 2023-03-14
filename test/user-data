@@ -1,0 +1,11 @@
+#cloud-config
+apt:
+ primary:
+  - arches: [default]
+    uri: http://us.archive.ubuntu.com/ubuntu/
+
+runcmd:
+  - apt update
+  - apt install git curl unzip ansible fail2ban gpg gpg-agent python3 python3-pip ufw rsyslog --yes
+  - git clone -b main https://github.com/manystake/solana-boot.git /root/solana-boot
+  - cd /root/solana-boot && ./scripts/init_validator.sh --use-ramdisk-for-account False --swap-file-size-gb 1

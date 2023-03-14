@@ -1,0 +1,61 @@
+#!/bin/bash
+
+if [[ ! -f /home/solana/.secrets/validator-keypair.json || ! -f /home/solana/.secrets/validator-keypair.json ]]
+then
+  echo ''
+  echo ''
+  echo -e "👷  Hello Solana Operator. Your node is almost ready."
+  echo ''
+  echo -e "🛠   In order to complete the configuration, copy your validator-keypair and your vote-account-keypair in the following location."
+  echo ''
+  echo -e "🔑  validator-keypair => /home/solana/.secrets/funded-validator-keypair.json"
+  echo -e "🔑  vote-account-keypair => /home/solana/.secrets/vote-account-keypair.json"
+  echo ''
+  echo -e "🔑  If it's your primary node or if you only have one node, create the following symlink"
+  echo -e "🔑  ln -sf /home/solana/.secrets/funded-validator-keypair.json /home/solana/.secrets/validator-keypair.json"
+  echo -e "🔑  If it's your secondary node (🔥 HOT Spare), create the following symlink"
+  echo -e "🔑  ln -sf /home/solana/.secrets/unfunded-validator-keypair.json /home/solana/.secrets/validator-keypair.json"
+  echo ''
+  echo "If you don't have a validator-keypair and vote-account-keypair yet, refer to the official docs to generate one."
+  echo -e "📗  https://docs.solana.com/running-validator/validator-start#generate-identity"
+  echo -e "📘  https://docs.solana.com/running-validator/validator-start#create-authorized-withdrawer-account"
+  echo -e "📙  https://docs.solana.com/running-validator/validator-start#create-vote-account"
+  echo ''
+  echo -e "🚨  It is very important to keep your authorized-withdrawer keypair in a safe location. Do not copy it in this server."
+  echo ''
+  echo -e "🚀  When you are done, start services:"
+  echo -e "sudo systemctl start solana-sys-tuner.service"
+  echo -e "sudo systemctl start solana-validator.service"
+  echo ''
+  echo -e '👀  Watch logs:'
+  echo 'tail -f /mnt/solana/logs/solana-validator.log'
+  echo ''
+  echo ''
+fi
+
+if [[ -f /home/solana/.secrets/validator-keypair.json || -f /home/solana/.secrets/validator-keypair.json ]]
+then
+  echo ''
+  echo -e "💡 Command Cheat Sheet:"
+  echo ''
+  echo -e "Start services"
+  echo -e "sudo systemctl start solana-sys-tuner.service"
+  echo -e "sudo systemctl start solana-validator.service"
+  echo ''
+  echo -e "Stop services"
+  echo -e "sudo systemctl stop solana-sys-tuner.service"
+  echo -e "sudo systemctl stop solana-validator.service"
+  echo ''
+  echo -e "Restart services"
+  echo -e "sudo systemctl restart solana-sys-tuner.service"
+  echo -e "sudo systemctl restart solana-validator.service"
+  echo ''
+  echo -e '👀  Watch logs'
+  echo 'tail -f /mnt/solana/logs/solana-validator.log'
+  echo ''
+  echo 'Update solana client'
+  echo 'sudo -i -u solana solana-install init <version>'
+  echo 'sudo systemctl restart solana-sys-tuner'
+  echo 'sudo -i -u solana solana-validator --ledger /mnt/solana/ledger wait-for-restart-window && systemctl restart solana-validator'
+  echo ''
+fi
