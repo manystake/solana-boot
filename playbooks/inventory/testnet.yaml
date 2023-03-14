@@ -1,7 +1,7 @@
 ---
 all:
   children:
-    mainnet_validators:
+    testnet_validators:
       children:
         local:
           hosts:
