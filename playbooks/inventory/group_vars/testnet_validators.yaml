@@ -1,0 +1,37 @@
+---
+mount_base_path: '/mnt/solana'
+swap_file_size_gb: '500'
+ramdisk_path: "{{ mount_base_path }}/ramdisk"
+ramdisk_size_gb: 400
+use_ramdisk_for_account: True
+use_firewall: True
+solana_user: solana
+solana_home: "/home/{{ solana_user }}"
+secrets_path: "/home/{{ solana_user }}/.secrets"
+solana_version: 1.14.16
+env_path: "{{ solana_home }}/.local/share/solana/install/active_release/bin"
+cluster_rpc_address: 'https://api.testnet.solana.com'
+validator_log_path: "{{ mount_base_path }}/log"
+solana_validator_service: stopped
+solana_metrics_url: 'https://metrics.solana.com:8086,db=tds,u=testnet_write,p=c4fa841aa918bf8274e3e2a44d77568d9861b3ea'
+solana_rpc_port: 8899
+expected_genesis_hash: 4uhcVJyU9pJkvQyS88uRDiswHXSCkY3zQawwpjk2NsNY
+maximum_local_snapshot_age: 3000
+limit_ledger_size: 50000000
+ledger_path: /mnt/solana_ledger/ledger
+accounts_path: "{{ ramdisk_path }}/accounts"
+snapshots_path: /mnt/solana/snapshots
+open_solana_ports_start: 8000
+open_solana_ports_end: 10000
+expected_shred_version: 6995
+cluster_environment: testnet
+entrypoints:
+  - entrypoint.testnet.solana.com:8001
+  - entrypoint2.testnet.solana.com:8001
+  - entrypoint3.testnet.solana.com:8001
+known_validators:
+  - 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
+  - dDzy5SR3AXdYWVqbDEkVFdvSPCtS9ihF5kJkHCtXoFs
+  - Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN
+  - eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ
+  - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv

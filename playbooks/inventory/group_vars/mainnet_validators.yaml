@@ -25,3 +25,17 @@ open_solana_ports_start: 8000
 open_solana_ports_end: 10000
 expected_shred_version: 56177
 cluster_environment: mainnet-beta
+entrypoints:
+  - entrypoint.mainnet-beta.solana.com:8001
+  - entrypoint2.mainnet-beta.solana.com:8001
+  - entrypoint3.mainnet-beta.solana.com:8001
+  - entrypoint4.mainnet-beta.solana.com:8001
+  - entrypoint5.mainnet-beta.solana.com:8001
+known_validators:
+  - DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ
+  - GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ
+  - CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S
+  - C1ocKDYMCm2ooWptMMnpd5VEB2Nx4UMJgRuYofysyzcA
+  - GwHH8ciFhR8vejWCqmg8FWZUCNtubPY2esALvy5tBvji
+  - 6WgdYhhGE53WrZ7ywJA15hBVkw7CRbQ8yDBBTwmBtAHN
+  - 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2
