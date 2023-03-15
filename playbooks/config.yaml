@@ -1,6 +1,0 @@
----
-- name: install or update config file
-  hosts: all
-  become: yes
-  roles:
-    - solana_config
