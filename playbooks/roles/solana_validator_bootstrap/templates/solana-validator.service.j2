@@ -20,6 +20,7 @@ ExecStart={{ env_path }}/solana-validator \
 --only-known-rpc \
 --expected-genesis-hash {{ expected_genesis_hash }} \
 --maximum-local-snapshot-age {{ maximum_local_snapshot_age }} \
+--incremental-snapshot-interval-slots 200 \
 {% for entrypoint in entrypoints %}
 --entrypoint {{ entrypoint }} \
 {% endfor %}
