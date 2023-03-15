@@ -2,28 +2,52 @@
 
 # Define here the IP of the node to transition voting operation
 TRANSITIONAL_NODE_IP=
+TRANSITIONAL_NODE_LEDGER_DIR={{ ledger_path }}
+TRANSITIONAL_NODE_SOLANA_USER={{ solana_user }}
+TRANSITIONAL_NODE_SOLANA_USER_HOME_DIR={{ solana_home }}
+TRANSITIONAL_NODE_SECRET_DIR={{ secrets_path }}
+TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE=$TRANSITIONAL_NODE_SECRET_DIR/funded-validator-keypair.json
+TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE=$TRANSITIONAL_NODE_SECRET_DIR/unfunded-validator-keypair.json
+TRANSITIONAL_NODE_SOLANA_PATH={{ env_path }}
 
 # Validate that TRANSITIONAL_NODE_IP is defined
 [[ -z "$TRANSITIONAL_NODE_IP" ]] && { echo "TRANSITIONAL_NODE_IP undefined. please edit the script before using it"; exit 1; }
 # Validate that ssh connectivity is correctly setup before running transition operation
-ssh -q -o BatchMode=yes  -o StrictHostKeyChecking=no -o ConnectTimeout=5 solana@$TRANSITIONAL_NODE_IP 'exit 0'
+ssh -q -o BatchMode=yes  -o StrictHostKeyChecking=no -o ConnectTimeout=5 $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP 'exit 0'
 [ $? != 0 ] && { echo "SSH connection to $server over port 22 is not possible"; exit 1; }
+
+# Check if TRANSITIONAL_NODE_LEDGER_DIR exists
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "ls $TRANSITIONAL_NODE_LEDGER_DIR" > /dev/null 2>&1
+[ $? != 0 ] && { echo "$TRANSITIONAL_NODE_LEDGER_DIR doesn't exists in TRANSITIONAL_NODE"; exit 1; }
+
+# Check if TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE exists
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "ls $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE" > /dev/null 2>&1
+[ $? != 0 ] && { echo "$TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE doesn't exists in TRANSITIONAL_NODE"; exit 1; }
+
+# Check if SOLANA CLI is installed exists
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "$TRANSITIONAL_NODE_SOLANA_PATH/solana --version" > /dev/null 2>&1
+[ $? != 0 ] && { echo "SOLANA CLI not found in TRANSITIONAL_NODE check the TRANSITIONAL_NODE_SOLANA_PATH VAR"; exit 1; }
+
+# Check if unfunded validator keypair exists in this machine
+[ ! -f $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE ] && { echo "Unfunded validator keypair doesn't exists on this machine"; exit 1; }
+
+# Check if tower file exists
+[ ! -f /mnt/solana_ledger/ledger/tower-1_9-"$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json)".bin ] && { echo "Unfunded validator keypair doesn't exists on this machine!"; exit 1; }
 
 # Wait for a restart window
 solana-validator -l {{ ledger_path }} wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
 
 # Stop voting operation on the currently voting node
-solana-validator -l {{ ledger_path }} set-identity /home/solana/.secrets/unfunded-validator-keypair.json
+solana-validator -l {{ ledger_path }} set-identity {{ secrets_path }}/unfunded-validator-keypair.json
 
 # Move symlink to unfunded validator keypair to prevent this node to vote concurrently in case of service restart
-ln -sf /home/solana/.secrets/unfunded-validator-keypair.json /home/solana/.secrets/validator-keypair.json
+ln -sf {{ secrets_path }}/unfunded-validator-keypair.json {{ secrets_path }}/validator-keypair.json
 
 # Copy the tower file to the node take over voting operation
-scp {{ ledger_path }}/tower-1_9-$(solana-keygen pubkey /home/solana/.secrets/funded-validator-keypair.json).bin solana@$TRANSITIONAL_NODE_IP:{{ ledger_path }}
+scp {{ ledger_path }}/tower-1_9-"$(solana-keygen pubkey {{ secrets_path }}/funded-validator-keypair.json)".bin $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP:$TRANSITIONAL_NODE_LEDGER_DIR
 
 # Start voting operation in the transitioned node
-ssh solana@TRANSITIONAL_NODE_IP 'solana-validator -l {{ ledger_path }} set-identity --require-tower /home/solana/.secrets/funded-validator-keypair.json'
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "solana-validator -l $TRANSITIONAL_NODE_SOLANA_USER set-identity --require-tower $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE"
 
 # Move symlink to funded validator keypair to permit vote operation in case of service restart
-ssh solana@TRANSITIONAL_NODE_IP 'ln -sf /home/solana/.secrets/funded-validator-keypair.json /home/solana/.secrets/validator-keypair.json'
-
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "ln -sf $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE $TRANSITIONAL_NODE_SECRET_DIR/validator-keypair.json"
