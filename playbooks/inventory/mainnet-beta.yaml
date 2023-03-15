@@ -7,4 +7,3 @@ all:
           hosts:
             localhost:
               #any var from group vars:
-              validator_name: "<validator name>"
