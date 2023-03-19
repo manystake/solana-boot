@@ -14,7 +14,7 @@ Environment="SOLANA_METRICS_CONFIG=host={{ solana_metrics_url }}"
 ExecStart={{ env_path }}/solana-validator \
 --identity {{ secrets_path }}/validator-keypair.json \
 --vote-account {{ secrets_path }}/vote-account-keypair.json \
---authorized-voter /home/solana/.secrets/staked-validator-keypair.json \
+--authorized-voter /home/solana/.secrets/funded-validator-keypair.json \
 --rpc-port {{ solana_rpc_port }} \
 --full-rpc-api \
 --only-known-rpc \
