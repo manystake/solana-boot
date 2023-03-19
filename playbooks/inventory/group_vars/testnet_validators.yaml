@@ -23,7 +23,7 @@ accounts_path: "{{ ramdisk_path }}/accounts"
 snapshots_path: /mnt/solana/snapshots
 open_solana_ports_start: 8000
 open_solana_ports_end: 10000
-expected_shred_version: 6995
+expected_shred_version: 28772
 cluster_environment: testnet
 entrypoints:
   - entrypoint.testnet.solana.com:8001
