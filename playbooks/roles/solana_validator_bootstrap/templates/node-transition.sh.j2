@@ -30,7 +30,7 @@ ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "$TRANSITIONAL_NODE_SOL
 [ $? != 0 ] && { echo "SOLANA CLI not found in TRANSITIONAL_NODE check the TRANSITIONAL_NODE_SOLANA_PATH VAR"; exit 1; }
 
 # Check if unfunded validator keypair exists in this machine
-[ ! -f $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE ] && { echo "Unfunded validator keypair doesn't exists on this machine"; exit 1; }
+[ ! -f {{ secrets_path }}/unfunded-validator-keypair.json ] && { echo "Unfunded validator keypair doesn't exists on this machine"; exit 1; }
 
 # Check if tower file exists
 [ ! -f /mnt/solana_ledger/ledger/tower-1_9-"$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json)".bin ] && { echo "There is no tower file /mnt/solana/ledger/tower-1_9-$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json).bin either the machine is running with the unfunded-validator-keypair in non voting mode or your ledger dir is wrong!!!"; exit 1; }
