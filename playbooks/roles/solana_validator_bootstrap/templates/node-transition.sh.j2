@@ -33,15 +33,15 @@ ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "$TRANSITIONAL_NODE_SOL
 [ ! -f $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE ] && { echo "Unfunded validator keypair doesn't exists on this machine"; exit 1; }
 
 # Check if tower file exists
-[ ! -f /mnt/solana_ledger/ledger/tower-1_9-"$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json)".bin ] && { echo "Unfunded validator keypair doesn't exists on this machine!"; exit 1; }
+[ ! -f /mnt/solana_ledger/ledger/tower-1_9-"$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json)".bin ] && { echo "There is no tower file /mnt/solana/ledger/tower-1_9-$(solana-keygen pubkey /home/solana/.secrets/validator-keypair.json).bin either the machine is running with the unfunded-validator-keypair in non voting mode or your ledger dir is wrong!!!"; exit 1; }
 
 # Check unfunded-validator-keypair should be different on each nodes
-TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM=$(ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "sha1sum $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE")
-[ $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM == "$(sha1sum {{ secrets_path }}/unfunded-validator-keypair.json)"  ] && { echo "Unfunded validator keypair must be different on each nodes"; exit 1; }
+TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM=$(ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "cat $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE | sha1sum")
+[ $TRANSITIONAL_NODE_UNFUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM == "$(cat {{ secrets_path }}/unfunded-validator-keypair.json | sha1sum)"  ] && { echo "Unfunded validator keypair must be different on each nodes"; exit 1; }
 
 # Check funded-validator-keypair should be the same on each nodes
-TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM=$(ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "sha1sum $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE")
-[ $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM != "$(sha1sum {{ secrets_path }}/funded-validator-keypair.json)"  ] && { echo "Funded validator keypair must be the same on each nodes"; exit 1; }
+TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM=$(ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "cat $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE | sha1sum")
+[ $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM != "$(cat {{ secrets_path }}/funded-validator-keypair.json | sha1sum)"  ] && { echo "Funded validator keypair must be the same on each nodes"; exit 1; }
 
 # Wait for a restart window
 solana-validator -l {{ ledger_path }} wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
