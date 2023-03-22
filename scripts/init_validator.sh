@@ -1,7 +1,7 @@
 #!/bin/bash
-# version="0.1"
 #
-# This is an optional arguments-only example of Argbash potential
+# This is a rather minimal example Argbash potential
+# Example taken from http://argbash.readthedocs.io/en/stable/example.html
 #
 # ARG_OPTIONAL_SINGLE([cluster],[c],[Solana cluster],[mainnet-beta])
 # ARG_OPTIONAL_SINGLE([ledger-path],[l],[Solana client ledger path],[/mnt/solana/ledger])
@@ -14,6 +14,14 @@
 # ARG_OPTIONAL_SINGLE([solana-user],[],[Solana client user],[solana])
 # ARG_OPTIONAL_SINGLE([solana-version],[],[Solana client version],[1.13.6])
 # ARG_OPTIONAL_SINGLE([use-ramdisk-for-account],[],[Put accounts in ramdisk],[True])
+# ARG_OPTIONAL_SINGLE([jito-enable],[],[Enable Jito configuration],[False])
+# ARG_OPTIONAL_SINGLE([jito-block-engine-url],[],[Jito block engine URL],[])
+# ARG_OPTIONAL_SINGLE([jito-relayer-url],[],[Jito relayer URL],[])
+# ARG_OPTIONAL_SINGLE([jito-receiver-addr],[],[Jito reciver address],[])
+# ARG_OPTIONAL_SINGLE([jito-tip-payment-program-pubkey],[],[Jito tip payment program pubkey],[])
+# ARG_OPTIONAL_SINGLE([jito-distribution-program-pubkey],[],[Jito distribution program pubkey],[])
+# ARG_OPTIONAL_SINGLE([jito-merkle-root-upload-authority],[],[Jito merkle root upload authority],[])
+# ARG_OPTIONAL_SINGLE([jito-commission-bps],[],[Jito commission bps],[0])
 # ARG_HELP([The general script's help msg])
 # ARGBASH_GO()
 # needed because of Argbash --> m4_ignore([
@@ -51,12 +59,20 @@ _arg_secrets_path="/home/solana/.secrets"
 _arg_solana_user="solana"
 _arg_solana_version="1.13.6"
 _arg_use_ramdisk_for_account="True"
+_arg_jito_enable="False"
+_arg_jito_block_engine_url=
+_arg_jito_relayer_url=
+_arg_jito_receiver_addr=
+_arg_jito_tip_payment_program_pubkey=
+_arg_jito_distribution_program_pubkey=
+_arg_jito_merkle_root_upload_authority=
+_arg_jito_commission_bps="0"
 
 
 print_help()
 {
 	printf '%s\n' "The general script's help msg"
-	printf 'Usage: %s [-c|--cluster <arg>] [-l|--ledger-path <arg>] [--snapshots-path <arg>] [--accounts-path <arg>] [--log-level <arg>] [--ramdisk-size-gb <arg>] [--swap-file-size-gb <arg>] [--secrets-path <arg>] [--solana-user <arg>] [--solana-version <arg>] [--use-ramdisk-for-account <arg>] [-h|--help]\n' "$0"
+	printf 'Usage: %s [-c|--cluster <arg>] [-l|--ledger-path <arg>] [--snapshots-path <arg>] [--accounts-path <arg>] [--log-level <arg>] [--ramdisk-size-gb <arg>] [--swap-file-size-gb <arg>] [--secrets-path <arg>] [--solana-user <arg>] [--solana-version <arg>] [--use-ramdisk-for-account <arg>] [--jito-enable <arg>] [--jito-block-engine-url <arg>] [--jito-relayer-url <arg>] [--jito-receiver-addr <arg>] [--jito-tip-payment-program-pubkey <arg>] [--jito-distribution-program-pubkey <arg>] [--jito-merkle-root-upload-authority <arg>] [--jito-commission-bps <arg>] [-h|--help]\n' "$0"
 	printf '\t%s\n' "-c, --cluster: Solana cluster (default: 'mainnet-beta')"
 	printf '\t%s\n' "-l, --ledger-path: Solana client ledger path (default: '/mnt/solana/ledger')"
 	printf '\t%s\n' "--snapshots-path: Solana client snapshots path (default: '/mnt/solana/snapshots')"
@@ -68,6 +84,14 @@ print_help()
 	printf '\t%s\n' "--solana-user: Solana client user (default: 'solana')"
 	printf '\t%s\n' "--solana-version: Solana client version (default: '1.13.6')"
 	printf '\t%s\n' "--use-ramdisk-for-account: Put accounts in ramdisk (default: 'True')"
+	printf '\t%s\n' "--jito-enable: Enable Jito configuration (default: 'False')"
+	printf '\t%s\n' "--jito-block-engine-url: Jito block engine URL (no default)"
+	printf '\t%s\n' "--jito-relayer-url: Jito relayer URL (no default)"
+	printf '\t%s\n' "--jito-receiver-addr: Jito reciver address (no default)"
+	printf '\t%s\n' "--jito-tip-payment-program-pubkey: Jito tip payment program pubkey (no default)"
+	printf '\t%s\n' "--jito-distribution-program-pubkey: Jito distribution program pubkey (no default)"
+	printf '\t%s\n' "--jito-merkle-root-upload-authority: Jito merkle root upload authority (no default)"
+	printf '\t%s\n' "--jito-commission-bps: Jito commission bps (default: '0')"
 	printf '\t%s\n' "-h, --help: Prints help"
 }
 
@@ -171,6 +195,70 @@ parse_commandline()
 				;;
 			--use-ramdisk-for-account=*)
 				_arg_use_ramdisk_for_account="${_key##--use-ramdisk-for-account=}"
+				;;
+			--jito-enable)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_enable="$2"
+				shift
+				;;
+			--jito-enable=*)
+				_arg_jito_enable="${_key##--jito-enable=}"
+				;;
+			--jito-block-engine-url)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_block_engine_url="$2"
+				shift
+				;;
+			--jito-block-engine-url=*)
+				_arg_jito_block_engine_url="${_key##--jito-block-engine-url=}"
+				;;
+			--jito-relayer-url)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_relayer_url="$2"
+				shift
+				;;
+			--jito-relayer-url=*)
+				_arg_jito_relayer_url="${_key##--jito-relayer-url=}"
+				;;
+			--jito-receiver-addr)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_receiver_addr="$2"
+				shift
+				;;
+			--jito-receiver-addr=*)
+				_arg_jito_receiver_addr="${_key##--jito-receiver-addr=}"
+				;;
+			--jito-tip-payment-program-pubkey)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_tip_payment_program_pubkey="$2"
+				shift
+				;;
+			--jito-tip-payment-program-pubkey=*)
+				_arg_jito_tip_payment_program_pubkey="${_key##--jito-tip-payment-program-pubkey=}"
+				;;
+			--jito-distribution-program-pubkey)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_distribution_program_pubkey="$2"
+				shift
+				;;
+			--jito-distribution-program-pubkey=*)
+				_arg_jito_distribution_program_pubkey="${_key##--jito-distribution-program-pubkey=}"
+				;;
+			--jito-merkle-root-upload-authority)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_merkle_root_upload_authority="$2"
+				shift
+				;;
+			--jito-merkle-root-upload-authority=*)
+				_arg_jito_merkle_root_upload_authority="${_key##--jito-merkle-root-upload-authority=}"
+				;;
+			--jito-commission-bps)
+				test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
+				_arg_jito_commission_bps="$2"
+				shift
+				;;
+			--jito-commission-bps=*)
+				_arg_jito_commission_bps="${_key##--jito-commission-bps=}"
 				;;
 			-h|--help)
 				print_help
