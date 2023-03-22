@@ -4,8 +4,12 @@ if [[ ! -f /home/solana/.secrets/validator-keypair.json || ! -f /home/solana/.se
 then
   echo ''
   echo ''
-  echo -e "👷  Hello Solana Operator. Your node is almost ready."
+  echo -e "👷  Hello {{ 'Jito' if jito_enable else ''  }} Solana Operator. Your node is almost ready."
   echo ''
+  {% if jito_enable %}
+  echo -e "🚨 Jito Solana Client is not pre-installed, you will need to compile it from source."
+  echo -e "📗 Follow this doc to build Jito software. https://jito-foundation.gitbook.io/mev/jito-solana/building-the-software"
+  {% endif %}
   echo -e "🛠   In order to complete the configuration, copy your validator-keypair and your vote-account-keypair in the following location."
   echo ''
   echo -e "🔑  validator-keypair => /home/solana/.secrets/funded-validator-keypair.json"

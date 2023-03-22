@@ -9,8 +9,8 @@
     mode: '0750'
 
 - name: Add Solana hints
-  copy:
-    src: 01-solana-hints
+  template:
+    src: 01-solana-hints.j2
     dest: /etc/update-motd.d/01-solana-hints
     owner: root
     group: root

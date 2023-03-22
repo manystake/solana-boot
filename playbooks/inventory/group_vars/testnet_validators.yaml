@@ -35,3 +35,11 @@ known_validators:
   - Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN
   - eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ
   - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv
+jito_enable: false
+jito_block_engin_url:
+jito_relayer_url:
+jito_receiver_addr:
+jito_tip_payment_program_pubkey:
+jito_distribution_program_pubkey:
+jito_merkle_root_upload_authority:
+jito_commission_bps:
