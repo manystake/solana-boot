@@ -298,7 +298,15 @@ init_validator () {
     'snapshots_path': $_arg_snapshots_path, \
     'solana_user': $_arg_solana_user, \
     'solana_version': $_arg_solana_version, \
-    'use_ramdisk_for_account': $_arg_use_ramdisk_for_account
+    'use_ramdisk_for_account': $_arg_use_ramdisk_for_account, \
+    'jito_enable': $_arg_jito_enable, \
+    'jito_block_engine_url': $_arg_jito_block_engine_url, \
+    'jito_relayer_url': $_arg_jito_relayer_url, \
+    'jito_receiver_addr': $_arg_jito_receiver_addr, \
+    'jito_tip_payment_program_pubkey': $_arg_jito_tip_payment_program_pubkey, \
+    'jito_distribution_program_pubkey': $_arg_jito_distribution_program_pubkey, \
+    'jito_merkle_root_upload_authority': $_arg_jito_merkle_root_upload_authority, \
+    'jito_commission_bps': $_arg_jito_commission_bps
     }" > /tmp/"${ID}"
     RC="$(grep RETURN_CODE /tmp/${ID} | cut -d"|" -f2)"
     cat /tmp/"${ID}"
