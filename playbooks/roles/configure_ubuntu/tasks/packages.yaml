@@ -21,5 +21,6 @@
       - python3-pip
       - ufw
       - rsyslog
+      - update-motd
   tags:
     - config.packages

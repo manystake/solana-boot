@@ -315,7 +315,4 @@ init_validator () {
 
 install_ansible_collection
 init_validator
-
-cat /run/motd.dynamic
-
-
+update-motd
