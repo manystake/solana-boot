@@ -22,9 +22,3 @@
   tags:
     - validator.service.solana
 
-- name: Start solana service
-  systemd:
-    name: solana-validator
-    state: "{{ solana_validator_service }}"
-  tags:
-    - validator.service.solana
