@@ -284,7 +284,6 @@ install_ansible_collection () {
 }
 
 init_validator () {
-  ID="${RANDOM}"
   ansible-playbook \
     --connection=local \
     --inventory ./playbooks/inventory/"$_arg_cluster".yaml \
@@ -307,10 +306,7 @@ init_validator () {
     'jito_distribution_program_pubkey': $_arg_jito_distribution_program_pubkey, \
     'jito_merkle_root_upload_authority': $_arg_jito_merkle_root_upload_authority, \
     'jito_commission_bps': $_arg_jito_commission_bps
-    }" > /tmp/"${ID}"
-    RC="$(grep RETURN_CODE /tmp/${ID} | cut -d"|" -f2)"
-    cat /tmp/"${ID}"
-    [[ ${RC} -gt 0 ]] && exit ${RC} || true
+    }"
 }
 
 install_ansible_collection
