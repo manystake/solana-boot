@@ -8,4 +8,9 @@ If you’re looking for information about a specific version, or instructions ab
 
 
 
-
+## How you can support this project
+---
+* Join our Discord https://discord.gg/ffX3tgBC
+* Fork, improve, and promote
+* Donate SOL to [Latitude.sh validator Identity Account](https://explorer.solana.com/address/c3rtoMCHSbFrLRTAdw4iRowKSn4BrDtvSPbuyJwkHwx)
+* Stake with [Latitude.sh validator](https://stakewiz.com/validator/AuBB9st3RqhHBkzZgBSm6SVnHZNJQSHeBWCSkik4bzdA)
