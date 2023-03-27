@@ -32,10 +32,10 @@
   tags:
     - validator.service.solana
 
-- name: Create fail over script
-  import_tasks: create_node_transition_script.yaml
+- name: Copy utils scripts
+  import_tasks: copy_scripts.yaml
   tags:
-    - failover.script
+    - copy.scripts
 
 - name: Create unfunded validator keypair
   import_tasks: create_unfunded_validator_keypair.yaml
