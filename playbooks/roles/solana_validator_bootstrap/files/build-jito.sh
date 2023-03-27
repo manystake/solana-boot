@@ -126,10 +126,6 @@ rustup component add rustfmt
 
 rustup update
 
-sudo apt-get update
-
-sudo apt-get install libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
-
 git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodules
 
 TAG=$_arg_tag_version
