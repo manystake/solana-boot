@@ -20,7 +20,6 @@ die()
 	exit "${_ret}"
 }
 
-
 begins_with_short_option()
 {
 	local first_option all_short_options='h'
