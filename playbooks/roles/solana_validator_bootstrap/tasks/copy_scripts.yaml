@@ -1,0 +1,21 @@
+---
+- name: Create solana validator transition script node-transition
+  template:
+    src: node-transition.sh.j2
+    dest: /home/solana/node-transition.sh
+    mode: 0755
+    owner: solana
+    group: solana
+  tags:
+    - copy.scripts
+
+- name: Create Jito build script
+  copy:
+    src: build-jito.sh
+    dest: /home/solana/build-jito.sh
+    mode: 0755
+    owner: solana
+    group: solana
+  when: jito_enable
+  tags:
+    - copy.scripts
