@@ -43,7 +43,6 @@ ExecStart={{ env_path }}/solana-validator \
 --accounts {{ accounts_path }} \
 --snapshots {{ snapshots_path }} \
 --dynamic-port-range {{ open_solana_ports_start }}-{{ open_solana_ports_end }} \
---expected-shred-version {{ expected_shred_version }} \
 {% if jito_enable %}
 --tip-payment-program-pubkey {{ jito_tip_payment_program_pubkey }} \
 --tip-distribution-program-pubkey {{ jito_distribution_program_pubkey }} \
@@ -51,8 +50,9 @@ ExecStart={{ env_path }}/solana-validator \
 --commission-bps {{ jito_commission_bps }} \
 --relayer-url ${RELAYER_URL} \
 --block-engine-url ${BLOCK_ENGINE_URL} \
---shred-receiver-address ${SHRED_RECEIVER_ADDR}
+--shred-receiver-address ${SHRED_RECEIVER_ADDR} \
 {% endif %}
+--expected-shred-version {{ expected_shred_version }}
 
 [Install]
 WantedBy=multi-user.target
