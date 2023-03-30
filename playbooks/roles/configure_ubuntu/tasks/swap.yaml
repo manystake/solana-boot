@@ -8,6 +8,8 @@
 - name: 🤹 check swap file exists
   stat:
     path: "{{ mount_base_path }}/swap/swapfile"
+    get_checksum: no
+    get_md5: no
   tags:
     - config.swap
   register: swap_file_exists
