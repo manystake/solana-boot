@@ -23,15 +23,6 @@
   tags:
     - config.firewall
 
-- name: 🔥 allow rpc ingress port
-  ufw:
-    rule: allow
-    proto: tcp
-    direction: in
-    port: '{{ solana_rpc_port }}'
-  tags:
-    - config.firewall
-
 - name: 🔥 allow ingress solana udp ports
   ufw:
     rule: allow
