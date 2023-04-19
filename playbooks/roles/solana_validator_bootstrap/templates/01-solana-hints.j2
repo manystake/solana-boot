@@ -67,7 +67,6 @@ then
   echo ''
   echo 'Update solana client'
   echo 'sudo -i -u solana solana-install init <version>'
-  echo 'sudo systemctl restart solana-sys-tuner'
-  echo 'sudo -i -u solana solana-validator --ledger /mnt/solana/ledger wait-for-restart-window && systemctl restart solana-validator'
+  echo 'sudo -i -u solana solana-validator --ledger /mnt/{{ ledger_path }}/ledger wait-for-restart-window && sudo systemctl restart solana-validator'
   echo ''
 fi
