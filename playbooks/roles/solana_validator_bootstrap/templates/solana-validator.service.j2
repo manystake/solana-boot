@@ -21,24 +21,18 @@ ExecStart={{ env_path }}/solana-validator \
 --vote-account {{ secrets_path }}/vote-account-keypair.json \
 --authorized-voter /home/solana/.secrets/funded-validator-keypair.json \
 --rpc-port {{ solana_rpc_port }} \
---full-rpc-api \
 --only-known-rpc \
 --expected-genesis-hash {{ expected_genesis_hash }} \
---maximum-local-snapshot-age {{ maximum_local_snapshot_age }} \
---incremental-snapshot-interval-slots 200 \
 {% for entrypoint in entrypoints %}
 --entrypoint {{ entrypoint }} \
 {% endfor %}
 {% for known_validator in known_validators %}
 --known-validator {{ known_validator }} \
 {% endfor %}
---private-rpc \
---rpc-bind-address 127.0.0.1 \
 --wal-recovery-mode skip_any_corrupted_record \
---snapshot-compression none \
---no-port-check \
---limit-ledger-size {{ limit_ledger_size }} \
+--limit-ledger-size \
 --log {{ validator_log_path }}/solana-validator.log \
+--maximum-incremental-snapshots-to-retain 2 \
 --ledger {{ ledger_path }} \
 --accounts {{ accounts_path }} \
 --snapshots {{ snapshots_path }} \
