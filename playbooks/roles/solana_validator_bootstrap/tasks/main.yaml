@@ -46,4 +46,3 @@
   import_tasks: motd_config.yaml
   tags:
     - validator.service.solana
-
