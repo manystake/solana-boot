@@ -22,6 +22,7 @@ ExecStart={{ env_path }}/solana-validator \
 --authorized-voter /home/solana/.secrets/funded-validator-keypair.json \
 --rpc-port {{ solana_rpc_port }} \
 --only-known-rpc \
+--private-rpc \
 --expected-genesis-hash {{ expected_genesis_hash }} \
 {% for entrypoint in entrypoints %}
 --entrypoint {{ entrypoint }} \
