@@ -135,7 +135,7 @@ git checkout tags/"$TAG"
 
 git submodule update --init --recursive
 
-CI_COMMIT=$(git rev-parse HEAD) scripts/cargo-install-all.sh ~/.local/share/solana/install/releases/"$TAG"
+CI_COMMIT=$(git rev-parse HEAD) scripts/cargo-install-all.sh --validator-only ~/.local/share/solana/install/releases/"$TAG"
 
 rm -rf "$HOME"/.local/share/solana/install/active_release
 
