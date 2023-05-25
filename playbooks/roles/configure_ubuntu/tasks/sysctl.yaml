@@ -1,48 +1,35 @@
 ---
 - ansible.posix.sysctl:
-    name: net.core.rmem_max
-    value: '134217728'
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
     state: present
     sysctl_file: /etc/sysctl.conf
     reload: yes
     sysctl_set: yes
-
-- ansible.posix.sysctl:
-    name: net.core.rmem_default
-    value: '134217728'
-    state: present
-    sysctl_file: /etc/sysctl.conf
-    reload: yes
-    sysctl_set: yes
-
-- ansible.posix.sysctl:
-    name: net.core.wmem_max
-    value: '134217728'
-    state: present
-    sysctl_file: /etc/sysctl.conf
-    reload: yes
-    sysctl_set: yes
-
-- ansible.posix.sysctl:
-    name: net.core.wmem_default
-    value: '134217728'
-    state: present
-    sysctl_file: /etc/sysctl.conf
-    reload: yes
-    sysctl_set: yes
-
-- ansible.posix.sysctl:
-      name: fs.nr_open
-      value: '2000000'
-      state: present
-      sysctl_file: /etc/sysctl.conf
-      reload: yes
-      sysctl_set: yes
-
-- ansible.posix.sysctl:
-      name: vm.max_map_count
-      value: '1000000'
-      state: present
-      sysctl_file: /etc/sysctl.conf
-      reload: yes
-      sysctl_set: yes
+  with_items:
+    - { name: 'net.ipv4.tcp_rmem', value: '10240 87380 12582912'}
+    - { name: 'net.ipv4.tcp_wmem', value: '10240 87380 12582912'}
+    - { name: 'net.ipv4.tcp_congestion_control', value: 'westwood'}
+    - { name: 'net.ipv4.tcp_fastopen', value: '3'}
+    - { name: 'net.ipv4.tcp_timestamps', value: '0'}
+    - { name: 'net.ipv4.tcp_sack', value: '1'}
+    - { name: 'net.ipv4.tcp_low_latency', value: '1'}
+    - { name: 'net.ipv4.tcp_tw_reuse', value: '1'}
+    - { name: 'net.ipv4.tcp_no_metrics_save', value: '1'}
+    - { name: 'net.ipv4.tcp_moderate_rcvbuf', value: '1'}
+    - { name: 'kernel.timer_migration', value: '0'}
+    - { name: 'kernel.hung_task_timeout_secs', value: '30'}
+    - { name: 'kernel.pid_max', value: '49152'}
+    - { name: 'vm.swappiness', value: '30'}
+    - { name: 'vm.max_map_count', value: '2000000'}
+    - { name: 'vm.stat_interval', value: '10'}
+    - { name: 'vm.dirty_ratio', value: '40'}
+    - { name: 'vm.dirty_background_ratio', value: '10'}
+    - { name: 'vm.min_free_kbytes', value: '3000000'}
+    - { name: 'vm.dirty_expire_centisecs', value: '36000'}
+    - { name: 'vm.dirty_writeback_centisecs', value: '3000'}
+    - { name: 'vm.dirtytime_expire_seconds', value: '43200'}
+    - { name: 'net.core.rmem_max', value: '134217728'}
+    - { name: 'net.core.rmem_default', value: '134217728'}
+    - { name: 'net.core.wmem_max', value: '134217728'}
+    - { name: 'net.core.wmem_default', value: '134217728'}

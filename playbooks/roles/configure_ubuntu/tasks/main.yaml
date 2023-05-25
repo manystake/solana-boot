@@ -18,7 +18,7 @@
   when: use_ramdisk_for_account
 
 - name: 🏎 Config cpu governor performance mode
-  import_tasks: cpu_governor.yaml
+  import_tasks: governor.yaml
   tags:
     - config.cpu
 
@@ -42,3 +42,7 @@
 
 - name: 🔧 Config sysctl
   import_tasks: sysctl.yaml
+
+- name: ⌚ chronly
+  import_tasks: chronly.yaml
+
