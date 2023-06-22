@@ -32,7 +32,7 @@ then
   echo -e "sudo systemctl start solana-validator.service"
   echo ''
   echo -e '👀  Watch logs:'
-  echo 'tail -f /mnt/solana/logs/solana-validator.log'
+  echo 'tail -f /mnt/solana/log/solana-validator.log'
   echo ''
   echo ''
 fi
@@ -59,7 +59,7 @@ then
   echo -e "sudo systemctl restart solana-validator.service"
   echo ''
   echo -e '👀  Watch logs'
-  echo 'tail -f /mnt/solana/logs/solana-validator.log'
+  echo 'tail -f /mnt/solana/log/solana-validator.log'
   echo ''
   echo 'Update solana client'
   echo 'sudo -i -u solana solana-install init <version>'
