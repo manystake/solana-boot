@@ -23,6 +23,13 @@
     pkg:
       - chrony
 
+- name: Add custom NTP server to chrony configuration
+    lineinfile:
+      path: /etc/chrony/chrony.conf
+      line: "server ntp.dallas.jito.wtf iburst"
+    notify:
+      - restart chronyd
+
 - name: Restart chronyd
   become: true
   become_user: root
