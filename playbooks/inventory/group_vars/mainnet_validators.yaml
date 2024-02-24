@@ -8,7 +8,7 @@ use_firewall: True
 solana_user: solana
 solana_home: "/home/{{ solana_user }}"
 secrets_path: "/home/{{ solana_user }}/.secrets"
-solana_version: 1.16.21
+solana_version: 1.17.21
 env_path: "{{ solana_home }}/.local/share/solana/install/active_release/bin"
 cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
@@ -23,7 +23,7 @@ accounts_path: "{{ ramdisk_path }}/accounts"
 snapshots_path: /mnt/solana/snapshots
 open_solana_ports_start: 8000
 open_solana_ports_end: 10000
-expected_shred_version: 56177
+expected_shred_version: 50093
 cluster_environment: mainnet-beta
 entrypoints:
   - entrypoint.mainnet-beta.solana.com:8001
