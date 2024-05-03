@@ -1,10 +1,10 @@
 ---
-rpc_exposed: False
+rpc_exposed: True
 mount_base_path: '/mnt/solana'
 swap_file_size_gb: '500'
 ramdisk_path: "{{ mount_base_path }}/ramdisk"
 ramdisk_size_gb: 400
-use_ramdisk_for_account: True
+use_ramdisk_for_account: False
 use_firewall: True
 solana_user: solana
 solana_home: "/home/{{ solana_user }}"
@@ -15,13 +15,13 @@ cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
 solana_validator_service: stopped
 solana_metrics_url: 'https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password'
-solana_rpc_port: 8899
+solana_rpc_port: 28899
 expected_genesis_hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
 maximum_local_snapshot_age: 3000
-limit_ledger_size: 50000000
+limit_ledger_size: 500000000
 ledger_path: /mnt/solana_ledger/ledger
-accounts_path: "{{ ramdisk_path }}/accounts"
-snapshots_path: /mnt/solana/snapshots
+accounts_path: /mnt/solana_accounts/accounts
+snapshots_path: /mnt/solana_snapshots/snapshots
 open_solana_ports_start: 8000
 open_solana_ports_end: 10000
 expected_shred_version: 50093
@@ -48,3 +48,6 @@ jito_tip_payment_program_pubkey:
 jito_distribution_program_pubkey:
 jito_merkle_root_upload_authority:
 jito_commission_bps:
+ledger_disk: nvme0n1
+accounts_disk: nvme1n1
+snapshots_disk: nvme2n1

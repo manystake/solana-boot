@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    mainnet_validators_rpc_jito:
+      children:
+        local:
+          hosts:
+            localhost:
+              #any var from group vars:

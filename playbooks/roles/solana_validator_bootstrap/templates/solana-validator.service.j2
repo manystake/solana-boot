@@ -31,7 +31,7 @@ ExecStart={{ env_path }}/solana-validator \
 --known-validator {{ known_validator }} \
 {% endfor %}
 --wal-recovery-mode skip_any_corrupted_record \
---limit-ledger-size \
+--limit-ledger-size {{ limit_ledger_size }} \
 --log {{ validator_log_path }}/solana-validator.log \
 --maximum-incremental-snapshots-to-retain 2 \
 --ledger {{ ledger_path }} \
@@ -46,6 +46,12 @@ ExecStart={{ env_path }}/solana-validator \
 --relayer-url ${RELAYER_URL} \
 --block-engine-url ${BLOCK_ENGINE_URL} \
 --shred-receiver-address ${SHRED_RECEIVER_ADDR} \
+{% endif %}
+{% if rpc_exposed %}
+--rpc-bind-address 0.0.0.0 \
+--full-rpc-api \
+--account-index program-id spl-token-mint spl-token-owner \
+--account-index-include-key AddressLookupTab1e1111111111111111111111111 \
 {% endif %}
 --expected-shred-version {{ expected_shred_version }}
 

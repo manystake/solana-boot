@@ -1,0 +1,62 @@
+- name: check ledger mount
+  become: true
+  become_user: root
+  shell: df -h | grep /mnt/solana_ledger
+  ignore_errors: yes
+  register: mount_mnt_ledger
+
+- name: format ledger disks with ext4
+  become: true
+  become_user: root
+  shell: mkfs.ext4 /dev/{{ ledger_disk }}
+  when: mount_mnt_ledger.rc != 0
+
+- name: add mounted ledger disk to fstab
+  become: true
+  become_user: root
+  lineinfile:
+    dest: /etc/fstab
+    state: present
+    line: "/dev/{{ ledger_disk }}    /mnt/solana_ledger    ext4    defaults    0    1"
+
+- name: check accounts mount
+  become: true
+  become_user: root
+  shell: df -h | grep /mnt/solana_accounts
+  ignore_errors: yes
+  register: mount_mnt_accounts
+
+- name: format accounts disks with ext4
+  become: true
+  become_user: root
+  shell: mkfs.ext4 /dev/{{ accounts_disk }}
+  when: mount_mnt_accounts.rc != 0
+
+- name: add mounted accounts disk to fstab
+  become: true
+  become_user: root
+  lineinfile:
+    dest: /etc/fstab
+    state: present
+    line: "/dev/{{ accounts_disk }}    /mnt/solana_accounts   ext4    defaults    0    1"
+
+- name: check snapshots mount
+  become: true
+  become_user: root
+  shell: df -h | grep /mnt/solana_snapshots
+  ignore_errors: yes
+  register: mount_mnt_snapshots
+
+- name: format snapshots disks with ext4
+  become: true
+  become_user: root
+  shell: mkfs.ext4 /dev/{{ snapshots_disk }}
+  when: mount_mnt_snapshots.rc != 0
+
+- name: add mounted snapshots disk to fstab
+  become: true
+  become_user: root
+  lineinfile:
+    dest: /etc/fstab
+    state: present
+    line: "/dev/{{ snapshots_disk }}    /mnt/solana_snapshots   ext4    defaults    0    1"
