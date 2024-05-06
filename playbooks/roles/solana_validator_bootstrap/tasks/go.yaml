@@ -1,0 +1,52 @@
+---
+- name: install go
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  command: wget https://go.dev/dl/go{{go_version}}.linux-amd64.tar.gz
+  tags:
+    - go.install
+
+- name: delete previous installation
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  command: rm -rf /usr/local/go
+  tags:
+    - go.install
+
+- name: extract go
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  command: tar -C /usr/local -xzf go{{go_version}}.linux-amd64.tar.gz
+  tags:
+    - go.install
+
+- name: Delete downloaded tar file
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  shell: rm -rf go{{version}}.linux-amd64.tar.gz*
+  tags:
+    - go.install
+
+- name: Add go binary path to ~/.profile
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  lineinfile:
+    path: ~/.profile
+    line: 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin'
+    create: true
+    state: present
+  tags:
+    - go.install
+
+- name: Source updated profile
+  become: true
+  become_user: ubuntu
+  become_method: sudo
+  shell: . ~/.profile
+  tags:
+    - go.install

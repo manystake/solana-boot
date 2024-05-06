@@ -1,43 +1,4 @@
-- name: install go
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  command: wget https://go.dev/dl/go{{go_version}}.linux-amd64.tar.gz
-
-- name: delete previous installation
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  command: rm -rf /usr/local/go
-
-- name: extract go
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  command: tar -C /usr/local -xzf go{{go_version}}.linux-amd64.tar.gz
-
-- name: Delete downloaded tar file
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  shell: rm -rf go{{version}}.linux-amd64.tar.gz*
-
-- name: Add go binary path to ~/.profile
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  lineinfile:
-    path: ~/.profile
-    line: 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin'
-    create: true
-    state: present
-
-- name: Source updated profile
-  become: true
-  become_user: ubuntu
-  become_method: sudo
-  shell: . ~/.profile
-
+---
 - name: clone tpu-traffic-classifier repo
   become: true
   become_user: ubuntu
@@ -47,6 +8,8 @@
     dest: /home/ubuntu/tpu-traffic-classifier
     clone: yes
     update: yes
+  tags:
+    - tpu-traffic-classifier.install
 
 - name: build tpu-traffic-classifier
   become: true
@@ -56,6 +19,8 @@
   args:
     chdir: /home/ubuntu/tpu-traffic-classifier
     executable: /bin/bash
+  tags:
+    - tpu-traffic-classifier.install
 
 - name: copy tpu-traffic.classifier
   become: true
@@ -68,6 +33,8 @@
     owner: ubuntu
     group: ubuntu
     mode: 0755
+  tags:
+    - tpu-traffic-classifier.install
 
 - name: Create tpu-traffic.classifier service
   become: true
@@ -80,7 +47,7 @@
     owner: root
     group: root
   tags:
-    - tpu-traffic-classifier
+    - tpu-traffic-classifier.install
 
 - name: Reload systemd
   become: true
@@ -89,7 +56,7 @@
   systemd:
     daemon_reload: yes
   tags:
-    - tpu-traffic-classifier
+    - tpu-traffic-classifier.install
 
 - name: Enable tpu-traffic-classifier service
   become: true
@@ -99,4 +66,4 @@
     name: tpu-traffic-classifier
     enabled: yes
   tags:
-    - tpu-traffic-classifier
+    - tpu-traffic-classifier.install
