@@ -54,3 +54,4 @@ snapshots_disk: nvme2n1
 identity_pubkey:
 jito_relayer_repo: https://github.com/jito-foundation/jito-relayer
 jito_solana_repo: https://github.com/jito-foundation/jito-solana.git
+go_version: 1.22.2
