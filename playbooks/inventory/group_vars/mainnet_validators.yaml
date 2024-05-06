@@ -54,3 +54,4 @@ jito_relayer_repo: https://github.com/jito-foundation/jito-relayer.git
 install_jito_solana: True
 jito_solana_repo: https://github.com/jito-foundation/jito-solana.git
 go_version: 1.22.2
+install_tpu-traffic-classifier: True
