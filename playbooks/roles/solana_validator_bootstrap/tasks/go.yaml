@@ -23,9 +23,7 @@
 
 - name: Delete downloaded tar file
   become: true
-  become_user: ubuntu
-  become_method: sudo
-  shell: rm -rf go{{version}}.linux-amd64.tar.gz*
+  shell: rm -rf go{{go_version}}.linux-amd64.tar.gz*
   tags:
     - go.install
 
