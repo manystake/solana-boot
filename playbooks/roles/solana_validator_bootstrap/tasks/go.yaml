@@ -1,5 +1,5 @@
 ---
-- name: install go
+- name: GO >> install go
   become: true
   become_user: ubuntu
   become_method: sudo
@@ -7,25 +7,25 @@
   tags:
     - go.install
 
-- name: delete previous installation
+- name: GO >> delete previous installation
   become: true
   command: rm -rf /usr/local/go
   tags:
     - go.install
 
-- name: extract go
+- name: GO >> extract go
   become: true
   command: tar -C /usr/local -xzf go{{go_version}}.linux-amd64.tar.gz
   tags:
     - go.install
 
-- name: Delete downloaded tar file
+- name: GO >> Delete downloaded tar file
   become: true
   shell: rm -rf go{{go_version}}.linux-amd64.tar.gz*
   tags:
     - go.install
 
-- name: Add go binary path to ~/.profile
+- name: GO >> Add go binary path to ~/.profile
   become: true
   become_user: ubuntu
   become_method: sudo
@@ -37,7 +37,7 @@
   tags:
     - go.install
 
-- name: Source updated profile
+- name: GO >> Source updated profile
   become: true
   become_user: ubuntu
   become_method: sudo
