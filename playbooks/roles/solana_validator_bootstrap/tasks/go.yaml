@@ -17,8 +17,6 @@
 
 - name: extract go
   become: true
-  become_user: ubuntu
-  become_method: sudo
   command: tar -C /usr/local -xzf go{{go_version}}.linux-amd64.tar.gz
   tags:
     - go.install
