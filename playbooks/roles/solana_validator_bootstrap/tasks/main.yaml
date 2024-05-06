@@ -58,8 +58,14 @@
     - haproxy
   when: install_haproxy
 
+- name: Install go
+  import_tasks: go.yaml
+  tags:
+    - go.install
+
 - name: Install TPU classifier
   import_tasks: tpu-traffic-classifier.yaml
   tags:
     - tpu-traffic-classifier
   when: install_tpu-traffic-classifier
+
