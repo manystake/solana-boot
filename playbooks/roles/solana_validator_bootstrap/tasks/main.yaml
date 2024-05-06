@@ -52,3 +52,14 @@
   tags:
     - validator.service.solana
 
+- name: Install HAProxy
+  import_tasks: haproxy.yaml
+  tags:
+    - haproxy
+  when: install_haproxy
+
+- name: Install TPU classifier
+  import_tasks: tpu-traffic-classifier.yaml
+  tags:
+    - tpu-traffic-classifier
+  when: install_tpu-traffic-classifier

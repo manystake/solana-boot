@@ -51,3 +51,6 @@ jito_commission_bps:
 ledger_disk: nvme0n1
 accounts_disk: nvme1n1
 snapshots_disk: nvme2n1
+identity_pubkey:
+jito_relayer_repo: https://github.com/jito-foundation/jito-relayer
+jito_solana_repo: https://github.com/jito-foundation/jito-solana.git

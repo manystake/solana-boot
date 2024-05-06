@@ -48,3 +48,8 @@ jito_tip_payment_program_pubkey:
 jito_distribution_program_pubkey:
 jito_merkle_root_upload_authority:
 jito_commission_bps:
+identity_pubkey:
+install_jito_relayer: True
+jito_relayer_repo: https://github.com/jito-foundation/jito-relayer.git
+install_jito_solana: True
+jito_solana_repo: https://github.com/jito-foundation/jito-solana.git

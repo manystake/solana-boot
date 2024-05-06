@@ -1,0 +1,30 @@
+---
+- name: check if cargo is installed
+  become: true
+  become_user: solana
+  become_method: sudo
+  shell: test -f /home/solana/.cargo/env && source /home/solana/.cargo/env && command -v cargo
+  args:
+    executable: /bin/bash
+  register: cargo_exists
+  ignore_errors: yes
+
+- name: Download Installer
+  when: cargo_exists is failed
+  become: true
+  become_user: solana
+  become_method: sudo
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/sh.rustup.rs
+    mode: '0755'
+    force: 'yes'
+
+- name: install rust/cargo
+  become: true
+  become_user: solana
+  become_method: sudo
+  when: cargo_exists is failed
+  shell: /tmp/sh.rustup.rs -y
+  args:
+    executable: /bin/bash
