@@ -42,7 +42,7 @@
     group: ubuntu
   tags:
     - tpu-traffic-classifier.install
-    -
+
 - name: copy tpu-traffic-classifier config
   become: true
   copy:
@@ -52,6 +52,12 @@
     owner: ubuntu
     group: ubuntu
     mode: 0755
+  tags:
+    - tpu-traffic-classifier.install
+
+- name: delete repo
+  become: true
+  command: rm -rf /home/ubuntu/tpu-traffic-classifier
   tags:
     - tpu-traffic-classifier.install
 

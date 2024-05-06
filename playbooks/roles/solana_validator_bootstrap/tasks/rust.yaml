@@ -1,30 +1,45 @@
 ---
-- name: check if cargo is installed
-  become: true
-  become_user: solana
-  become_method: sudo
-  shell: test -f /home/solana/.cargo/env && source /home/solana/.cargo/env && command -v cargo
-  args:
-    executable: /bin/bash
-  register: cargo_exists
-  ignore_errors: yes
-
-- name: Download Installer
-  when: cargo_exists is failed
-  become: true
-  become_user: solana
-  become_method: sudo
+- name: download rust installer
   get_url:
-    url: https://sh.rustup.rs
-    dest: /tmp/sh.rustup.rs
-    mode: '0755'
-    force: 'yes'
+    url: "https://sh.rustup.rs"
+    dest: /usr/local/sbin/rustup-install.sh
+    mode: 0755
+    owner: root
+    group: root
+    checksum: "{{ rustup_checksum }}"
+  tags:
+    - rust.install
 
-- name: install rust/cargo
+- name: install rust
+  command: "/usr/local/sbin/rustup-install.sh -y"
+  args:
+    chdir: /home/solana/
   become: true
   become_user: solana
-  become_method: sudo
-  when: cargo_exists is failed
-  shell: /tmp/sh.rustup.rs -y
+  register: install_output
+  changed_when: false
+  tags:
+    - rust.install
+
+- name: debug
+  debug: var=install_output
+  tags:
+    - rust.install
+
+- name: install rustfmt
+  command: rustup component add rustfmt
   args:
-    executable: /bin/bash
+    chdir: /home/solana/
+  environment:
+    PATH: /bin:/usr/bin:/usr/local/bin:/home/solana/.cargo/bin
+  become: true
+  become_user: solana
+  register: rustup_output
+  changed_when: false
+  tags:
+    - rust.install
+
+- name: debug
+  debug: var=rustup_output
+  tags:
+    - rust.install

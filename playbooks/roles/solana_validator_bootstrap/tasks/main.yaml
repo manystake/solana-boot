@@ -17,6 +17,11 @@
     - solana.cli.install
   when: not solana_exists.stat.exists
 
+- name: install rust
+  import_tasks: rust.yaml
+  tags:
+    - rust.install
+
 - name: Set cluster environment
   import_tasks: cluster_environment.yaml
   tags:
