@@ -24,8 +24,6 @@
 
 - name: copy tpu-traffic.classifier
   become: true
-  become_user: ubuntu
-  become_method: sudo
   copy:
     src: /home/ubuntu/tpu-traffic-classifier/tpu-traffic-classifier
     dest: /usr/local/sbin/tpu-traffic-classifier
@@ -38,8 +36,6 @@
 
 - name: Create tpu-traffic.classifier service
   become: true
-  become_user: ubuntu
-  become_method: sudo
   template:
     src: tpu-traffic-classifier.service.j2
     dest: /etc/systemd/system/tpu-traffic-classifier.service
@@ -51,8 +47,6 @@
 
 - name: Reload systemd
   become: true
-  become_user: ubuntu
-  become_method: sudo
   systemd:
     daemon_reload: yes
   tags:
@@ -60,8 +54,6 @@
 
 - name: Enable tpu-traffic-classifier service
   become: true
-  become_user: ubuntu
-  become_method: sudo
   systemd:
     name: tpu-traffic-classifier
     enabled: yes
