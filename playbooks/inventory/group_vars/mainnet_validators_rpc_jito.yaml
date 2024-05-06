@@ -55,3 +55,5 @@ identity_pubkey:
 jito_relayer_repo: https://github.com/jito-foundation/jito-relayer
 jito_solana_repo: https://github.com/jito-foundation/jito-solana.git
 go_version: 1.22.2
+install_tpu_traffic_classifier: True
+install_haproxy: True

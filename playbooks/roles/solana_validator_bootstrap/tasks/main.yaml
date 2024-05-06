@@ -60,7 +60,7 @@
 - name: Install HAProxy
   import_tasks: haproxy.yaml
   tags:
-    - haproxy
+    - haproxy.install
   when: install_haproxy
 
 - name: Install go
