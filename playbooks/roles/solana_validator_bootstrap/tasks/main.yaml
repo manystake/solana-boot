@@ -66,6 +66,6 @@
 - name: Install TPU classifier
   import_tasks: tpu-traffic-classifier.yaml
   tags:
-    - tpu-traffic-classifier
+    - tpu-traffic-classifier.install
   when: install_tpu-traffic-classifier
 
