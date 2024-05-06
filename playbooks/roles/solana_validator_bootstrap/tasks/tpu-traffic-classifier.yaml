@@ -37,7 +37,7 @@
 - name: copy tpu-traffic-classifier config
   become: true
   copy:
-    src: /home/ubuntu/tpu-traffic-classifier/tpu-traffic-classifier/config.yml
+    src: /home/ubuntu/tpu-traffic-classifier/config.yml
     dest: /etc/tpu-traffic-classifier/config.yml
     remote_src: true
     owner: ubuntu
