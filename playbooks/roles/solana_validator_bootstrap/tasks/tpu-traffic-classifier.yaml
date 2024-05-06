@@ -34,6 +34,15 @@
   tags:
     - tpu-traffic-classifier.install
 
+- name: create download dir
+  file:
+    path: /etc/tpu-traffic-classifier
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+  tags:
+    - tpu-traffic-classifier.install
+    -
 - name: copy tpu-traffic-classifier config
   become: true
   copy:
