@@ -104,6 +104,7 @@
   loop:
     - /var/log/nginx
     - /var/run/nginx
+    - /usr/local/nginx
   tags:
     - nginx.install
 
