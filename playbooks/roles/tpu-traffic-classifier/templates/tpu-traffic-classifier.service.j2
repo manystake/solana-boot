@@ -1,0 +1,25 @@
+[Unit]
+Description=TPU traffic classifier
+After=network-online.target
+StartLimitInterval=0
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+Group=root
+PermissionsStartOnly=true
+ExecStart=/usr/local/sbin/tpu-traffic-classifier -config-file /etc/tpu-traffic-classifier/config.yml{% if identity_pubkey is defined and identity_pubkey != '' %} -pubkey {{ identity_pubkey }}{% endif %}
+
+SyslogIdentifier=tpu-traffic-classifier
+KillMode=process
+Restart=always
+RestartSec=5
+
+LimitNOFILE=700000
+LimitNPROC=700000
+
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,0 @@
----
-- name: install haproxy
-  include_role:
-    name: rpcpool.solana_rpc_haproxy
-  tags:
-    - haproxy.install

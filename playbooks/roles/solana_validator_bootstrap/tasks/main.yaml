@@ -56,21 +56,3 @@
   import_tasks: motd_config.yaml
   tags:
     - validator.service.solana
-
-- name: Install HAProxy
-  import_tasks: haproxy.yaml
-  tags:
-    - haproxy.install
-  when: install_haproxy
-
-- name: Install go
-  import_tasks: go.yaml
-  tags:
-    - go.install
-
-- name: Install TPU classifier
-  import_tasks: tpu-traffic-classifier.yaml
-  tags:
-    - tpu-traffic-classifier.install
-  when: install_tpu_traffic_classifier
-

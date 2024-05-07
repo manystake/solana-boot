@@ -1,0 +1,73 @@
+- name: Install nginx deps
+  become: yes
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - libssl-dev
+    - zlib1g-dev
+    - libpcre3
+    - libpcre3-dev
+    - unzip
+
+- name: Downloading NGINX sources
+  get_url:
+    url: "{{ nginx_tarball_url }}"
+    dest: "/tmp/{{ nginx_version }}.tar.gz"
+  register: nginx_source
+
+- name: Unpacking NGINX
+  unarchive:
+    copy: no
+    dest: /tmp/
+    src: "{{ nginx_source.dest }}"
+  when: nginx_source.changed
+  register: nginx_source_unpack
+
+- name: Create required Nginx dirs
+  become: yes
+  file:
+    path: /etc/nginx
+    state: directory
+    owner: root
+    mode: 0755
+
+- name: Configuring NGINX source with custom modules
+  command: "./configure --sbin-path={{ nginx_sbin_path }} --conf-path={{ nginx_conf_path }} {{ nginx_custom_modules }}"
+  args:
+    chdir: "{{ nginx_install_dir }}"
+  when: nginx_source_unpack|changed
+  register: nginx_configure
+
+- name: Installing NGINX
+  become: yes
+  shell: make && make install
+  args:
+    chdir: "{{ nginx_install_dir }}"
+  when: nginx_configure|changed
+
+- name: Creating NGINX conf file
+  become: yes
+  template:
+    src: nginx.conf
+    dest: "{{ nginx_conf_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+
+- name: Copy nginx.service systemd service file
+  copy:
+    src: "../files/nginx.service"
+    dest: /etc/systemd/system/nginx.service
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Enable nginx service
+  systemd:
+    name: nginx
+    enabled: yes

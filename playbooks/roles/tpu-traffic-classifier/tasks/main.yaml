@@ -1,4 +1,8 @@
----
+- name: Install go
+  import_tasks: go.yaml
+  tags:
+    - go.install
+
 - name: clone tpu-traffic-classifier repo
   become: true
   become_user: ubuntu

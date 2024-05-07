@@ -1,0 +1,45 @@
+- name: jito relayer repository
+  become: true
+  become_user: solana
+  git:
+    repo: {{ jito_relayer_repo }}
+    dest: /home/solana/jito-relayer
+    version: tags/{{ jito-relayer }}-jito
+    recursive: yes
+    update: yes
+    clone: yes
+  tags:
+    - jito-relayer.install
+
+- name: build solana
+  become: true
+  become_user: solana
+  shell: source /home/solana/.cargo/env && /mnt/solana/cargo build --release
+  args:
+    chdir: /home/solana/jito-relayer
+    executable: /bin/bash
+  tags:
+    - jito-relayer.install
+
+- name: Create jito-relayer service
+  template:
+    src: jito-relayer.service.j2
+    dest: /etc/systemd/system/jito-relayer.service
+    mode: 0644
+    owner: root
+    group: root
+  tags:
+    - jito-relayer.install
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+  tags:
+    - jito-relayer.install
+
+- name: Enable jito-relayer service
+  systemd:
+    name: jito-relayer
+    enabled: yes
+  tags:
+    - jito-relayer.install

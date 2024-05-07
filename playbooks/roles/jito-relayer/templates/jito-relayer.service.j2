@@ -1,0 +1,30 @@
+[Unit]
+Description=Solana transaction relayer
+Requires=network-online.target chrony.service
+After=network-online.target chrony.service
+
+# User is required to install a keypair here that's used to auth against the block engine
+ConditionPathExists=/home/solana/.secrets/relayer-keypair.json
+ConditionPathExists=/home/solana/.secrets/private.pem
+ConditionPathExists=/home/solana/.secrets/public.pem
+
+[Service]
+Type=exec
+User=solana
+Restart=on-failure
+Environment=RUST_LOG=info
+Environment=SOLANA_METRICS_CONFIG="host=http://metrics.jito.wtf:8086,db=relayer,u=relayer-operators,p=jito-relayer-write"
+Environment=BLOCK_ENGINE_URL=https://ny.mainnet.block-engine.jito.wtf
+Environment=GRPC_BIND_IP=127.0.0.1
+
+ExecStart=/home/solana/.local/share/jito-relayer/release/jito-transaction-relayer \
+	--keypair-path=/home/solana/.secrets/relayer-keypair.json \
+	--signing-key-pem-path=/home/solana/.secrets/private.pem \
+	--verifying-key-pem-path=/home/solana/.secrets/public.pem \
+	--rpc-servers=http://127.0.0.1:8899 \
+	--websocket-servers=ws://127.0.0.1:8900 \
+    --staked-nodes-overrides="/home/solana/staked-nodes-overrides.yaml" \
+    --forward-all
+
+[Install]
+WantedBy=multi-user.target
