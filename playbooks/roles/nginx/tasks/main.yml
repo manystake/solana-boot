@@ -46,7 +46,7 @@
   command: "./configure --sbin-path={{ nginx_sbin_path }} --conf-path={{ nginx_conf_path }} {{ nginx_custom_modules }}"
   args:
     chdir: "{{ nginx_install_dir }}"
-  when: nginx_source_unpack|changed
+  when: nginx_source_unpack|nginx_source.changed
   register: nginx_configure
   tags:
     - nginx.install
@@ -56,7 +56,7 @@
   shell: make && make install
   args:
     chdir: "{{ nginx_install_dir }}"
-  when: nginx_configure|changed
+  when: nginx_configure|nginx_source.changed
   tags:
     - nginx.install
 
