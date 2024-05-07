@@ -46,7 +46,7 @@
     - nginx.install
 
 - name: Configuring NGINX source with custom modules
-  command: "./configure --sbin-path={{ nginx_sbin_path }} --conf-path={{ nginx_conf_path }} {{ nginx_custom_modules }}"
+  command: "./configure --sbin-path={{ nginx_sbin_path }} --conf-path={{ nginx_conf_path }} --error-log-path={{ nginx_error_log_path }} --http-log-path={{ nginx_http_log_path }} --with-pcre --pid-path={{ nginx_pid_path }} {{ nginx_custom_modules }}"
   args:
     chdir: "{{ nginx_install_dir }}"
   when: nginx_source_unpack

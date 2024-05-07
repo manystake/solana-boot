@@ -4,12 +4,12 @@ After=syslog.target network-online.target remote-fs.target nss-lookup.target
 Wants=network-online.target
 
 [Service]
-User=nginx
+User=ubuntu
 Type=forking
-PIDFile=/run/nginx.pid
-ExecStartPre=/usr/sbin/nginx -t
-ExecStart=/usr/sbin/nginx
-ExecReload=/usr/sbin/nginx -s reload
+PIDFile=/var/run/nginx.pid
+ExecStartPre=/usr/bin/nginx -t
+ExecStart=/usr/bin/nginx
+ExecReload=/usr/bin/nginx -s reload
 ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true
 
