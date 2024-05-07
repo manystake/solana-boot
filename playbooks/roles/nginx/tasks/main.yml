@@ -94,6 +94,13 @@
   tags:
     - nginx.install
 
+- name: Add permission to nginx
+  file:
+    dest: /var/log/nginx
+    owner: nginx
+    group: nginx
+    recurse: yes
+
 - name: Copy nginx.service systemd service file
   copy:
     src: "../files/nginx.service"
