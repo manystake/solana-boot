@@ -1,3 +1,14 @@
+- name: import vars
+  vars:
+    nginx_version: nginx-1.26.0
+    nginx_tarball_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
+    nginx_install_dir: "/tmp/{{ nginx_version }}"
+    nginx_sbin_path: "/usr/sbin/nginx"
+    nginx_conf_path: "/etc/nginx/nginx.conf"
+    nginx_custom_modules: "--with-http_auth_request_module"
+  tags:
+    - nginx.install
+
 - name: Install nginx deps
   become: yes
   apt:
