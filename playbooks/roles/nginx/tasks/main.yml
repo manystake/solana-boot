@@ -68,8 +68,8 @@
   template:
     src: nginx.conf
     dest: "{{ nginx_conf_path }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: ubuntu
+    group: ubuntu
     mode: 0644
   tags:
     - nginx.install
