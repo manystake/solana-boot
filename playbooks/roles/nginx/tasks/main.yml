@@ -94,12 +94,15 @@
   tags:
     - nginx.install
 
-- name: Add permission to nginx
+- name: Add permissions to nginx directories
   file:
-    dest: /var/log/nginx
+    dest: "{{ item }}"
     owner: nginx
     group: nginx
     recurse: yes
+  loop:
+    - /var/log/nginx
+    - /var/run/nginx
   tags:
     - nginx.install
 
