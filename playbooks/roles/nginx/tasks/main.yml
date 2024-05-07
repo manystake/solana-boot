@@ -1,5 +1,4 @@
 ---
-
 - name: Install nginx deps
   become: yes
   apt:
@@ -14,6 +13,27 @@
     - libpcre3
     - libpcre3-dev
     - unzip
+  tags:
+    - nginx.install
+
+- name: 🐸 Ensure group nginx exists
+  ansible.builtin.group:
+    name: nginx
+    state: present
+  tags:
+    - nginx.install
+
+- name: 🐸 Create user nginx
+  user:
+    name: nginx
+    state: present
+    create_home: yes
+    shell: /bin/bash
+    skeleton: /etc/skel
+    force: yes
+    groups:
+      - nginx
+      - syslog
   tags:
     - nginx.install
 
@@ -40,7 +60,7 @@
   file:
     path: /etc/nginx
     state: directory
-    owner: root
+    owner: nginx
     mode: 0755
   tags:
     - nginx.install
@@ -68,8 +88,8 @@
   template:
     src: nginx.conf
     dest: "{{ nginx_conf_path }}"
-    owner: ubuntu
-    group: ubuntu
+    owner: nginx
+    group: nginx
     mode: 0644
   tags:
     - nginx.install
