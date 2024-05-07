@@ -9,12 +9,16 @@
     - libpcre3
     - libpcre3-dev
     - unzip
+  tags:
+    - nginx.install
 
 - name: Downloading NGINX sources
   get_url:
     url: "{{ nginx_tarball_url }}"
     dest: "/tmp/{{ nginx_version }}.tar.gz"
   register: nginx_source
+  tags:
+    - nginx.install
 
 - name: Unpacking NGINX
   unarchive:
@@ -23,6 +27,8 @@
     src: "{{ nginx_source.dest }}"
   when: nginx_source.changed
   register: nginx_source_unpack
+  tags:
+    - nginx.install
 
 - name: Create required Nginx dirs
   become: yes
@@ -31,6 +37,8 @@
     state: directory
     owner: root
     mode: 0755
+  tags:
+    - nginx.install
 
 - name: Configuring NGINX source with custom modules
   command: "./configure --sbin-path={{ nginx_sbin_path }} --conf-path={{ nginx_conf_path }} {{ nginx_custom_modules }}"
@@ -38,6 +46,8 @@
     chdir: "{{ nginx_install_dir }}"
   when: nginx_source_unpack|changed
   register: nginx_configure
+  tags:
+    - nginx.install
 
 - name: Installing NGINX
   become: yes
@@ -45,6 +55,8 @@
   args:
     chdir: "{{ nginx_install_dir }}"
   when: nginx_configure|changed
+  tags:
+    - nginx.install
 
 - name: Creating NGINX conf file
   become: yes
@@ -54,6 +66,8 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0644
+  tags:
+    - nginx.install
 
 - name: Copy nginx.service systemd service file
   copy:
@@ -62,12 +76,18 @@
     mode: 0644
     owner: root
     group: root
+  tags:
+    - nginx.install
 
 - name: Reload systemd
   systemd:
     daemon_reload: yes
+  tags:
+    - nginx.install
 
 - name: Enable nginx service
   systemd:
     name: nginx
     enabled: yes
+  tags:
+    - nginx.install
