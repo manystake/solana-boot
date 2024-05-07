@@ -6,4 +6,4 @@ all:
         local:
           hosts:
             localhost:
-              #any var from group vars:
+              #any var from group defaults:
