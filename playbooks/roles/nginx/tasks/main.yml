@@ -4,7 +4,7 @@
   apt:
     name: "{{ item }}"
     update_cache: yes
-  with_items:
+  loop:
     - clang
     - cmake
     - make
@@ -13,6 +13,7 @@
     - libpcre3
     - libpcre3-dev
     - unzip
+    - iptables-persistent
   tags:
     - nginx.install
 
@@ -128,3 +129,22 @@
     enabled: yes
   tags:
     - nginx.install
+
+- name: Forward port 80 to 28080
+  ansible.builtin.iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: eno1
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: REDIRECT
+    to_ports: 28080
+    comment: Redirect web traffic to port 28080
+  become: yes
+  tags:
+    - nginx.install
+
+- name: Save iptables configuration (/etc/iptables/)
+  ansible.builtin.command: netfilter-persistent save
+  become: yes
