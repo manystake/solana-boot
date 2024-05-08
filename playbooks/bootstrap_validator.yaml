@@ -5,4 +5,4 @@
   roles:
     - configure_ubuntu
     - solana_validator_bootstrap
-    - nginx
+    - openresty
