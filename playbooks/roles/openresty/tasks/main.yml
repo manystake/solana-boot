@@ -26,7 +26,7 @@
 - name: Template Nginx OpenResty configuration
   become: yes
   ansible.builtin.template:
-    src: nginx.conf.j2
+    src: nginx.conf
     dest: /etc/openresty/nginx.conf
     owner: root
     group: root
