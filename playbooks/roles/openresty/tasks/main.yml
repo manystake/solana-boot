@@ -1,0 +1,55 @@
+- name: Import OpenResty GPG key
+  become: yes
+  ansible.builtin.get_url:
+    url: https://openresty.org/package/pubkey.gpg
+    dest: /etc/apt/trusted.gpg.d/openresty.asc
+  tags:
+    - openresty.install
+
+- name: Add OpenResty APT repository
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "deb http://openresty.org/package/ubuntu jammy main"
+    filename: openresty
+    state: present
+  tags:
+    - openresty.install
+
+- name: Install OpenResty
+  become: yes
+  ansible.builtin.apt:
+    name: openresty
+    state: present
+  tags:
+    - openresty.install
+
+- name: Template Nginx OpenResty configuration
+  become: yes
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/openresty/nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - openresty.install
+
+- name: Install solana-jsonrpc-access.lua
+  become: yes
+  ansible.builtin.file:
+    src: solana-jsonrpc-access.lua
+    dest: /usr/local/openresty/nginx/solana-jsonrpc-access.lua
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - openresty.install
+
+- name: Start OpenResty
+  become: yes
+  ansible.builtin.service:
+    name: openresty
+    state: started
+    enabled: yes
+  tags:
+    - openresty.install
