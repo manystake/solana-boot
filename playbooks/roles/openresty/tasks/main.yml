@@ -36,8 +36,8 @@
 
 - name: Install solana-jsonrpc-access.lua
   become: yes
-  ansible.builtin.file:
-    src: solana-jsonrpc-access.lua
+  ansible.builtin.copy:
+    src: ../files/solana-jsonrpc-access.lua
     dest: /usr/local/openresty/nginx/solana-jsonrpc-access.lua
     owner: root
     group: root
