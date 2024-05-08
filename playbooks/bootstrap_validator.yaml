@@ -6,3 +6,4 @@
     - configure_ubuntu
     - solana_validator_bootstrap
     - openresty
+    - tpu-traffic-classifier
