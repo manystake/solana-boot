@@ -101,6 +101,7 @@
     owner: nginx
     group: nginx
     recurse: yes
+    state: directory
   loop:
     - /var/log/nginx
     - /var/run/nginx
