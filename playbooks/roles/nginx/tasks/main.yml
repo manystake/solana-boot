@@ -106,6 +106,7 @@
     - /var/log/nginx
     - /var/run/nginx
     - /usr/local/nginx
+    - /usr/local/nginx/logs
   tags:
     - nginx.install
 
