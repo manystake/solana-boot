@@ -16,7 +16,6 @@
     - tpu-traffic-classifier.install
 
 - name: build tpu-traffic-classifier
-  become: true
   become_user: ubuntu
   shell: go build -o tpu-traffic-classifier .
   args:
