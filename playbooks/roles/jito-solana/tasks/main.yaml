@@ -5,7 +5,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/jito-foundation/jito-solana.git'
     dest: /home/solana/jito-solana
-    version: "tags/{{ solana_version }}-jito"
+    version: "master"
     recursive: yes
     update: yes
 
