@@ -21,11 +21,11 @@
 
 - name: 🐸 Create secrets dir
   become: yes
-  become_user: "{{ solana_user }}"
   file:
     path: "{{ secrets_path }}"
     state: directory
     mode: '0700'
+    owner: solana
   tags:
     - config.solana_user
     - validator.service.solana
