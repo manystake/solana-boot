@@ -1,48 +1,87 @@
 ---
-- name: 🔥 Install firewall package
-  package:
-    name:
-      - ufw
-    state: present
+- name: 🔥 Disable UFW
+  community.general.ufw:
+    state: disabled
+  when: skip_iptables == false and (ansible_distribution_version == "20.04" or ansible_distribution_version == "22.04")
+
+- name: 🔥 Install required system packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: [
+    'iptables',
+    'iptables-persistent'
+  ]
+
+- name: 🔥 Set the policy for the INPUT chain to ACCEPT (IPv4)
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    policy: ACCEPT
   tags:
     - config.firewall
 
-- name: 🔥 Deny all ingress connections
-  ufw:
-    policy: deny
-    direction: incoming
+- name: 🔥 Flush filter chains (IPv4)
+  ansible.builtin.iptables:
+    chain: "{{ item }}"
+    ip_version: ipv4
+    flush: yes
+  with_items: ["INPUT", "FORWARD", "OUTPUT"]
+
+- name: 🔥 Flush filter chains (IPv6)
+  ansible.builtin.iptables:
+    chain: "{{ item }}"
+    ip_version: ipv6
+    flush: yes
+  with_items: ["INPUT", "FORWARD", "OUTPUT"]
+
+- name: 🔥 Allow all loopback connectivity
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+
+- name: 🔥 Allow TCP port 22 / SSH connectivity
+  ansible.builtin.iptables:
+    chain: INPUT
+    destination_port: 22
+    jump: ACCEPT
+    protocol: tcp
+
+- name: 🔥 Allow established and related connectivity
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+
+- name: 🔥 Allow ingress solana UDP ports
+  iptables:
+    chain: INPUT
+    protocol: udp
+    port: '8000:10000'
+    jump: ACCEPT
   tags:
     - config.firewall
 
-- name: 🔥 allow ingress ssh
-  ufw:
-    rule: allow
-    port: ssh
-    proto: tcp
-    direction: in
+- name: 🔥 Allow ingress solana TCP ports
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    port: '8000:10000'
+    jump: ACCEPT
   tags:
     - config.firewall
 
-- name: 🔥 allow ingress solana udp ports
-  ufw:
-    rule: allow
-    proto: udp
-    direction: in
-    port: '{{ open_solana_ports_start }}:{{ open_solana_ports_end }}'
-  tags:
-    - config.firewall
+- name: 🔥 Set the policy for the INPUT chain to DROP (IPv4)
+  iptables:
+    chain: INPUT
+    ip_version: ipv4
+    policy: DROP
 
-- name: 🔥 allow ingress solana tcp ports
-  ufw:
-    rule: allow
-    proto: tcp
-    direction: in
-    port: '{{ open_solana_ports_start }}:{{ open_solana_ports_end }}'
-  tags:
-    - config.firewall
+- name: 🔥 Set the policy for the INPUT chain to DROP (IPv6)
+  iptables:
+    chain: INPUT
+    ip_version: ipv6
+    policy: DROP
 
-- name: 🔥 Enable ufw
-  ufw:
-    state: enabled
-  tags:
-    - config.firewall
+- name: 🔥 Save iptables configuration (/etc/iptables/)
+  ansible.builtin.command: netfilter-persistent save
+  become: yes

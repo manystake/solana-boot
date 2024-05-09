@@ -1,5 +1,5 @@
 ---
-rpc_exposed: True
+full_rpc: True
 mount_base_path: '/mnt/solana'
 swap_file_size_gb: '500'
 ramdisk_path: "{{ mount_base_path }}/ramdisk"

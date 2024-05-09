@@ -1,0 +1,6 @@
+---
+- name: install openresty
+  hosts: all
+  become: yes
+  roles:
+    - openresty

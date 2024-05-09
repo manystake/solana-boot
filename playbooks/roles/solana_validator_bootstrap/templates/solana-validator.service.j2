@@ -47,8 +47,8 @@ ExecStart={{ env_path }}/solana-validator \
 --block-engine-url ${BLOCK_ENGINE_URL} \
 --shred-receiver-address ${SHRED_RECEIVER_ADDR} \
 {% endif %}
-{% if rpc_exposed %}
---rpc-bind-address 0.0.0.0 \
+{% if full_rpc %}
+--rpc-bind-address 127.0.0.1 \
 --full-rpc-api \
 --account-index program-id spl-token-mint spl-token-owner \
 --account-index-include-key AddressLookupTab1e1111111111111111111111111 \

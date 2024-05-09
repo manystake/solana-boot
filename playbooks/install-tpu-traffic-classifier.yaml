@@ -1,0 +1,6 @@
+---
+- name: install tpu traffic classifier
+  hosts: all
+  become: yes
+  roles:
+    - tpu-traffic-classifier

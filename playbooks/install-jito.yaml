@@ -1,0 +1,7 @@
+---
+- name: build jito validator
+  hosts: all
+  become: yes
+  roles:
+    - rust
+    - jito-solana
