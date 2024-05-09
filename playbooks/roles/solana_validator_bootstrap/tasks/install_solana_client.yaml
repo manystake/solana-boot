@@ -1,5 +1,6 @@
 ---
 - name: create download dir
+  become: yes
   file:
     path: /tmp/solana
     state: directory

@@ -18,7 +18,6 @@
 - name: build tpu-traffic-classifier
   become: true
   become_user: ubuntu
-  become_method: sudo
   shell: go build -o tpu-traffic-classifier .
   args:
     chdir: /home/ubuntu/tpu-traffic-classifier
