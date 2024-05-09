@@ -3,7 +3,6 @@
   hosts: all
   become: yes
   roles:
-    - configure_ubuntu
-    - solana_validator_bootstrap
-    - openresty
-    - tpu-traffic-classifier
+    - { role: configure_ubuntu }
+    - { role: solana_validator_bootstrap }
+    - { role: jito-solana, when: jito_enable }
