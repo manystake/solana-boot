@@ -56,7 +56,8 @@
   iptables:
     chain: INPUT
     protocol: udp
-    port: '8000:10000'
+    destination_port:
+      - "8000:10000"
     jump: ACCEPT
   tags:
     - config.firewall
@@ -65,7 +66,8 @@
   iptables:
     chain: INPUT
     protocol: tcp
-    port: '8000:10000'
+    destination_port:
+      - "8000:10000"
     jump: ACCEPT
   tags:
     - config.firewall
