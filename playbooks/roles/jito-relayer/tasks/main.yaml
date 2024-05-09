@@ -14,7 +14,7 @@
 - name: build solana
   become: true
   become_user: solana
-  shell: source /home/solana/.cargo/env && /mnt/solana/cargo build --release
+  shell: source /home/solana/.cargo/env && cargo build --release
   args:
     chdir: /home/solana/jito-relayer
     executable: /bin/bash
