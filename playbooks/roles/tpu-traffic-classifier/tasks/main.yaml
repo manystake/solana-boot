@@ -36,7 +36,7 @@
   tags:
     - tpu-traffic-classifier.install
 
-- name: create download dir
+- name: create config dir
   file:
     path: /etc/tpu-traffic-classifier
     state: directory
