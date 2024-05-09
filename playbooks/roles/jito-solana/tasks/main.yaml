@@ -2,8 +2,8 @@
 - name: jito solana repository
   become: true
   become_user: solana
-  git:
-    repo: "{{ jito_solana_repo }}"
+  ansible.builtin.git:
+    repo: https://github.com/jito-foundation/jito-solana.git
     dest: /home/solana/jito-solana
     version: "tags/{{ solana_version }}-jito"
     recursive: yes
