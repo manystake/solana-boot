@@ -3,13 +3,11 @@
   become: true
   become_user: solana
   ansible.builtin.git:
-    repo: https://github.com/jito-foundation/jito-solana.git
+    repo: 'https://github.com/jito-foundation/jito-solana.git'
     dest: /home/solana/jito-solana
-    version: "{{ solana_version }}-jito"
+    version: "tags/{{ solana_version }}-jito"
     recursive: yes
     update: yes
-    clone: yes
-
 
 - name: build solana
   become: true
