@@ -17,7 +17,7 @@
 
 - name: build tpu-traffic-classifier
   become_user: ubuntu
-  shell: go build -o tpu-traffic-classifier .
+  shell: source /home/ubuntu/.profile && go build -o tpu-traffic-classifier .
   args:
     chdir: /home/ubuntu/tpu-traffic-classifier
     executable: /bin/bash
