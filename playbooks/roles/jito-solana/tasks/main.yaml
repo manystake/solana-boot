@@ -5,14 +5,14 @@
   ansible.builtin.git:
     repo: 'https://github.com/jito-foundation/jito-solana.git'
     dest: /home/solana/jito-solana
-    version: "master"
+    version: "v1.17.33-jito"
     recursive: yes
     update: yes
 
 - name: build solana
   become: true
   become_user: solana
-  shell: source /home/solana/.cargo/env && /mnt/solana/cargo build --release
+  shell: source /home/solana/.cargo/env && cargo build --release
   args:
     chdir: /home/solana/jito-solana
     executable: /bin/bash
