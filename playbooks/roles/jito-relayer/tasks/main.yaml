@@ -2,9 +2,9 @@
   become: true
   become_user: solana
   git:
-    repo: {{ jito_relayer_repo }}
+    repo: "{{ jito_relayer_repo }}"
     dest: /home/solana/jito-relayer
-    version: tags/{{ jito-relayer }}-jito
+    version: v{{ jito_relayer_version }}
     recursive: yes
     update: yes
     clone: yes
