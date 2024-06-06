@@ -5,4 +5,5 @@
   roles:
     - { role: configure_ubuntu }
     - { role: solana_validator_bootstrap }
+    - { role: rust }
     - { role: jito-solana, when: jito_enable }
