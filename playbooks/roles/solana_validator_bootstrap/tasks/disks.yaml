@@ -29,7 +29,7 @@
 - name: Create a ext4 filesystem for ledger
   community.general.parted:
     device: "/dev/{{ ledger_disk.device }}"
-    number: 1
+    number: '1'
     state: present
     label: gpt
     fs_type: ext4
@@ -89,14 +89,15 @@
 #    dev: "/dev/{{ accounts_disk.device }}"
 #  when: accounts_disk.managed
 
-- name: Create a ext4 filesystem for accounts
+
+- name: Create a ext4 filesystem for ledger
   community.general.parted:
-    device: "/dev/{{ accounts_disk.device }}"
-    number: 1
+    device: "/dev/{{ ledger_disk.device }}"
+    number: '1'
     state: present
     label: gpt
     fs_type: ext4
-  when: accounts_disk.managed
+  when: ledger_disk.managed
 
 - name: mount accounts disk
   become: true
@@ -147,7 +148,7 @@
 - name: Create a ext4 filesystem for snapshots
   community.general.parted:
     device: "/dev/{{ snapshots_disk.device }}"
-    number: 1
+    number: '1'
     state: present
     label: gpt
     fs_type: ext4
