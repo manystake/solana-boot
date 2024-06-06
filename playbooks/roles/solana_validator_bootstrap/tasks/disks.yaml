@@ -8,12 +8,21 @@
   when: ledger_disk.managed
 
 - name: Create a ext4 filesystem for ledger
-  become: true
-  filesystem:
-    fstype: ext4
-    dev: "/dev/{{ ledger_disk.device }}"
-    opts: -cc
+  community.general.parted:
+    device: "/dev/{{ ledger_disk.device }}"
+    number: 1
+    state: present
+    label: gpt
+    fs_type: ext4
   when: ledger_disk.managed
+
+#- name: Create a ext4 filesystem for ledger
+#  become: true
+#  filesystem:
+#    fstype: ext4
+#    dev: "/dev/{{ ledger_disk.device }}"
+#    opts: -cc
+#  when: ledger_disk.managed
 
 - name: mount ledger disk
   become: true
@@ -35,12 +44,21 @@
     state: directory
   when: accounts_disk.managed
 
+#- name: Create a ext4 filesystem for accounts
+#  become: true
+#  filesystem:
+#    fstype: ext4
+#    dev: "/dev/{{ accounts_disk.device }}"
+#    opts: -cc
+#  when: accounts_disk.managed
+
 - name: Create a ext4 filesystem for accounts
-  become: true
-  filesystem:
-    fstype: ext4
-    dev: "/dev/{{ accounts_disk.device }}"
-    opts: -cc
+  community.general.parted:
+    device: "/dev/{{ accounts_disk.device }}"
+    number: 1
+    state: present
+    label: gpt
+    fs_type: ext4
   when: accounts_disk.managed
 
 - name: mount accounts disk
@@ -63,12 +81,21 @@
     state: directory
   when: snapshots_disk.managed
 
+#- name: Create a ext4 filesystem for snapshots
+#  become: true
+#  filesystem:
+#    fstype: ext4
+#    dev: "/dev/{{ snapshots_disk.device }}"
+#    opts: -cc
+#  when: snapshots_disk.managed
+
 - name: Create a ext4 filesystem for snapshots
-  become: true
-  filesystem:
-    fstype: ext4
-    dev: "/dev/{{ snapshots_disk.device }}"
-    opts: -cc
+  community.general.parted:
+    device: "/dev/{{ snapshots_disk.device }}"
+    number: 1
+    state: present
+    label: gpt
+    fs_type: ext4
   when: snapshots_disk.managed
 
 - name: mount snapshots disk
