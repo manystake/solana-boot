@@ -7,6 +7,13 @@
     state: directory
   when: ledger_disk.managed
 
+- name: Umount ledger_disk if exists
+  become: true
+  mount:
+    path: "{{ ledger_disk.path }}"
+    state: unmounted
+  when: ledger_disk.managed
+
 - name: ledger_disk info
   community.general.parted: device="/dev/{{ ledger_disk.device }}" unit=MiB
   register: sdb_info
@@ -56,6 +63,13 @@
     state: directory
   when: accounts_disk.managed
 
+- name: Umount accounts_disk if exists
+  become: true
+  mount:
+    path: "{{ accounts_disk.path }}"
+    state: unmounted
+  when: accounts_disk.managed
+
 - name: ledger_disk info
   community.general.parted: device="/dev/{{ accounts_disk.device }}" unit=MiB
   register: sdb_info
@@ -102,6 +116,13 @@
   ansible.builtin.file:
     path: "{{ snapshots_disk.path }}"
     state: directory
+  when: snapshots_disk.managed
+
+- name: Umount snapshots_disk if exists
+  become: true
+  mount:
+    path: "{{ snapshots_disk.path }}"
+    state: unmounted
   when: snapshots_disk.managed
 
 - name: snapshots_disk info
