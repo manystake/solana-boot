@@ -13,8 +13,10 @@ Environment="PATH=/bin:/usr/bin:{{ env_path }}"
 Environment="SOLANA_METRICS_CONFIG=host={{ solana_metrics_url }}"
 {% if jito_enable %}
 Environment="BLOCK_ENGINE_URL={{ jito_block_engine_url }}"
-Environment="RELAYER_URL={{ jito_relayer_url }}"
 Environment="SHRED_RECEIVER_ADDR={{ jito_receiver_addr }}"
+{% endif %}
+{% if jito_relayer_enable %}
+Environment="RELAYER_URL={{ jito_relayer_url }}"
 {% endif %}
 ExecStart={{ env_path }}/solana-validator \
 --identity {{ secrets_path }}/validator-keypair.json \
@@ -43,9 +45,11 @@ ExecStart={{ env_path }}/solana-validator \
 --tip-distribution-program-pubkey {{ jito_distribution_program_pubkey }} \
 --merkle-root-upload-authority {{ jito_merkle_root_upload_authority }} \
 --commission-bps {{ jito_commission_bps }} \
---relayer-url ${RELAYER_URL} \
 --block-engine-url ${BLOCK_ENGINE_URL} \
 --shred-receiver-address ${SHRED_RECEIVER_ADDR} \
+{% endif %}
+{% if jito_relayer_enable %}
+--relayer-url ${RELAYER_URL} \
 {% endif %}
 {% if full_rpc %}
 --rpc-bind-address 127.0.0.1 \

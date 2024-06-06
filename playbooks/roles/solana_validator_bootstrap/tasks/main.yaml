@@ -1,6 +1,7 @@
 ---
 - name: setup disks
   import_tasks: disks.yaml
+  when: manage_disk
   tags:
     - solana.disks.setup
 
@@ -46,6 +47,12 @@
   import_tasks: create_unfunded_validator_keypair.yaml
   tags:
     - create.unfunded_validator_keypair
+
+- name: Create validator keypair
+  import_tasks: create_validator_keypair.yaml
+  when: create_validator_keypair
+  tags:
+    - create.validator_keypair
 
 - name: Custom Motd config
   import_tasks: motd_config.yaml

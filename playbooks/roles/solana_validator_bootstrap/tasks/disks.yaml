@@ -1,62 +1,83 @@
-- name: check ledger mount
-  become: true
-  become_user: root
-  shell: df -h | grep /mnt/solana_ledger
-  ignore_errors: yes
-  register: mount_mnt_ledger
+# ledger
 
-- name: format ledger disks with ext4
+- name: Create ledger path
   become: true
-  become_user: root
-  shell: mkfs.ext4 /dev/{{ ledger_disk }}
-  when: mount_mnt_ledger.rc != 0
+  ansible.builtin.file:
+    path: "{{ ledger_disk.path }}"
+    state: directory
+  when: ledger_disk.managed
 
-- name: add mounted ledger disk to fstab
+- name: Create a ext4 filesystem for ledger
   become: true
-  become_user: root
-  lineinfile:
-    dest: /etc/fstab
-    state: present
-    line: "/dev/{{ ledger_disk }}    /mnt/solana_ledger    ext4    defaults    0    1"
+  filesystem:
+    fstype: ext4
+    dev: "/dev/{{ ledger_disk.device }}"
+    opts: -cc
+  when: ledger_disk.managed
 
-- name: check accounts mount
+- name: mount ledger disk
   become: true
-  become_user: root
-  shell: df -h | grep /mnt/solana_accounts
-  ignore_errors: yes
-  register: mount_mnt_accounts
+  mount:
+    src: "/dev/{{ ledger_disk.device }}"
+    path: "{{ ledger_disk.path }}"
+    fstype: ext4
+    opts: defaults
+    state: mounted
+    passno: 1
+  when: ledger_disk.managed
 
-- name: format accounts disks with ext4
-  become: true
-  become_user: root
-  shell: mkfs.ext4 /dev/{{ accounts_disk }}
-  when: mount_mnt_accounts.rc != 0
+# accounts
 
-- name: add mounted accounts disk to fstab
+- name: Create accounts path
   become: true
-  become_user: root
-  lineinfile:
-    dest: /etc/fstab
-    state: present
-    line: "/dev/{{ accounts_disk }}    /mnt/solana_accounts   ext4    defaults    0    1"
+  ansible.builtin.file:
+    path: "{{ accounts_disk.path }}"
+    state: directory
+  when: accounts_disk.managed
 
-- name: check snapshots mount
+- name: Create a ext4 filesystem for accounts
   become: true
-  become_user: root
-  shell: df -h | grep /mnt/solana_snapshots
-  ignore_errors: yes
-  register: mount_mnt_snapshots
+  filesystem:
+    fstype: ext4
+    dev: "/dev/{{ accounts_disk.device }}"
+    opts: -cc
+  when: accounts_disk.managed
 
-- name: format snapshots disks with ext4
+- name: mount accounts disk
   become: true
-  become_user: root
-  shell: mkfs.ext4 /dev/{{ snapshots_disk }}
-  when: mount_mnt_snapshots.rc != 0
+  mount:
+    src: "/dev/{{ accounts_disk.device }}"
+    path: "{{ accounts_disk.path }}"
+    fstype: ext4
+    opts: defaults
+    state: mounted
+    passno: 1
+  when: accounts_disk.managed
 
-- name: add mounted snapshots disk to fstab
+# snapshots
+
+- name: Create snapshots path
   become: true
-  become_user: root
-  lineinfile:
-    dest: /etc/fstab
-    state: present
-    line: "/dev/{{ snapshots_disk }}    /mnt/solana_snapshots   ext4    defaults    0    1"
+  ansible.builtin.file:
+    path: "{{ snapshots_disk.path }}"
+    state: directory
+  when: snapshots_disk.managed
+
+- name: Create a ext4 filesystem for snapshots
+  become: true
+  filesystem:
+    fstype: ext4
+    dev: "/dev/{{ snapshots_disk.device }}"
+    opts: -cc
+  when: snapshots_disk.managed
+
+- name: mount snapshots disk
+  become: true
+  mount:
+    src: "/dev/{{ snapshots_disk.device }}"
+    path: "{{ snapshots_disk.path }}"
+    fstype: ext4
+    opts: defaults
+    state: mounted
+    passno: 1
+  when: snapshots_disk.managed

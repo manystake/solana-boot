@@ -1,7 +1,8 @@
 ---
+create_validator_keypair: True
 full_rpc: True
 mount_base_path: '/mnt/solana'
-swap_file_size_gb: '50'
+swap_file_size_gb: 0
 ramdisk_path: "{{ mount_base_path }}/ramdisk"
 ramdisk_size_gb: 400
 use_ramdisk_for_account: False
@@ -9,7 +10,7 @@ use_firewall: True
 solana_user: solana
 solana_home: "/home/{{ solana_user }}"
 secrets_path: "/home/{{ solana_user }}/.secrets"
-solana_version: 1.17.33
+solana_version: 1.17.34
 env_path: "{{ solana_home }}/.local/share/solana/install/active_release/bin"
 cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
@@ -40,21 +41,33 @@ known_validators:
   - GwHH8ciFhR8vejWCqmg8FWZUCNtubPY2esALvy5tBvji
   - 6WgdYhhGE53WrZ7ywJA15hBVkw7CRbQ8yDBBTwmBtAHN
   - 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2
-jito_enable: false
-jito_block_engine_url:
-jito_relayer_url:
-jito_receiver_addr:
-jito_tip_payment_program_pubkey:
-jito_distribution_program_pubkey:
-jito_merkle_root_upload_authority:
-jito_commission_bps:
-ledger_disk: nvme0n1
-accounts_disk: nvme1n1
-snapshots_disk: nvme2n1
+jito_enable: True
+jito_block_engine_url: https://ny.mainnet.block-engine.jito.wtf
+jito_relayer_enable: False
+jito_relayer_url: http://ny.mainnet.relayer.jito.wtf:8100
+jito_receiver_addr: 141.98.216.96:1002
+jito_tip_payment_program_pubkey: T1pyyaTNZsKv2WcRAB8oVnk93mLJw2XzjtVYqCsaHqt
+jito_distribution_program_pubkey: 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7
+jito_merkle_root_upload_authority: GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib
+jito_commission_bps: 800
+ntp: ntp.dallas.jito.wtf
+manage_disk: True
+ledger_disk:
+  managed: True
+  device: nvme2n1
+  path: /mnt/solana_ledger
+accounts_disk:
+  managed: True
+  device: nvme3n1
+  path: /mnt/solana_accounts
+snapshots_disk:
+  managed: True
+  device: nvme4n1
+  path: /mnt/solana_snapshots
 identity_pubkey:
 jito_relayer_repo: https://github.com/jito-foundation/jito-relayer
 jito_relayer_version: 0.1.13
 jito_solana_repo: https://github.com/jito-foundation/jito-solana.git
 go_version: 1.22.2
 install_tpu_traffic_classifier: True
-install_haproxy: True
+install_haproxy: False

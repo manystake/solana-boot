@@ -1,0 +1,27 @@
+---
+- name: Check if validator_keypair.json exists
+  stat:
+    path: "{{ secrets_path }}/funded-validator-keypair.json"
+  register: funded_validator_keypair
+  tags:
+    - create.validator_keypair
+
+- name: Create a validator keypair to transition between active voting and none voting node
+  shell: solana-keygen new -s --no-bip39-passphrase -o {{ secrets_path }}/funded-validator-keypair.json
+  become: yes
+  become_user: "{{ solana_user}}"
+  environment:
+    PATH: "{{ env_path }}"
+  when: not validator_keypair.stat.exists
+  tags:
+    - create.validator_keypair
+
+- name: Create a validator keypair symblink
+  ansible.builtin.file:
+    src: "{{ secrets_path }}/funded-validator-keypair.json"
+    dest: "{{ secrets_path }}/validator-keypair.json"
+    owner: solana
+    group: solana
+    state: link
+  tags:
+    - create.validator_keypair

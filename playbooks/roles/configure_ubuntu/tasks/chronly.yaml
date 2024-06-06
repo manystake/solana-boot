@@ -23,6 +23,17 @@
     pkg:
       - chrony
 
+- name: set chrony jito ntp
+  become: true
+  become_user: root
+  template:
+    src: chrony.conf.j2
+    dest: /etc/chrony/chrony.conf
+    mode: 0644
+    owner: root
+    group: root
+  when: jito_enable
+
 - name: Restart chronyd
   become: true
   become_user: root

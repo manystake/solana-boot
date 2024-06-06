@@ -30,66 +30,66 @@
     - config.solana_user
     - validator.service.solana
 
-- name: 🐸 Create ledger directory
-  become: yes
-  file:
-    path: "{{ ledger_path }}"
-    owner: "{{ solana_user }}"
-    group: "{{ solana_user }}"
-    state: directory
-    mode: '0755'
-  tags:
-    - config.solana_user
-    - validator.service.solana
+#- name: 🐸 Create ledger directory
+#  become: yes
+#  file:
+#    path: "{{ ledger_path }}"
+#    owner: "{{ solana_user }}"
+#    group: "{{ solana_user }}"
+#    state: directory
+#    mode: '0755'
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana
+#
+#- name: 🐸 set account path for disk
+#  set_fact:
+#    accounts_path: "{{ mount_base_path }}/accounts"
+#  when: not use_ramdisk_for_account
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana
+#
+#- name: 🐸 set account path for ramdisk
+#  set_fact:
+#    accounts_path: "{{ ramdisk_path }}/accounts"
+#  when: use_ramdisk_for_account
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana
 
-- name: 🐸 set account path for disk
-  set_fact:
-    accounts_path: "{{ mount_base_path }}/accounts"
-  when: not use_ramdisk_for_account
-  tags:
-    - config.solana_user
-    - validator.service.solana
-
-- name: 🐸 set account path for ramdisk
-  set_fact:
-    accounts_path: "{{ ramdisk_path }}/accounts"
-  when: use_ramdisk_for_account
-  tags:
-    - config.solana_user
-    - validator.service.solana
-
-- name: 🐸 Create accounts directory on disk
-  become: yes
-  file:
-    path: "{{ accounts_path }}"
-    owner: "{{ solana_user }}"
-    group: "{{ solana_user }}"
-    state: directory
-    mode: '0755'
-  tags:
-    - config.solana_user
-    - validator.service.solana
-
-- name: 🐸 Create snapshots directory
-  become: yes
-  file:
-    path: "{{ snapshots_path }}"
-    owner: "{{ solana_user }}"
-    group: "{{ solana_user }}"
-    state: directory
-    mode: '0755'
-  tags:
-    - config.solana_user
-    - validator.service.solana
-
-- name: 🐸 Create logs directory
-  become: yes
-  file:
-    path: "{{ validator_log_path }}"
-    owner: "{{ solana_user }}"
-    group: "{{ solana_user }}"
-    state: directory
-    mode: '0755'
-  tags:
-    - config.solana_user
-    - validator.service.solana
+#- name: 🐸 Create accounts directory on disk
+#  become: yes
+#  file:
+#    path: "{{ accounts_path }}"
+#    owner: "{{ solana_user }}"
+#    group: "{{ solana_user }}"
+#    state: directory
+#    mode: '0755'
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana
+#
+#- name: 🐸 Create snapshots directory
+#  become: yes
+#  file:
+#    path: "{{ snapshots_path }}"
+#    owner: "{{ solana_user }}"
+#    group: "{{ solana_user }}"
+#    state: directory
+#    mode: '0755'
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana
+#
+#- name: 🐸 Create logs directory
+#  become: yes
+#  file:
+#    path: "{{ validator_log_path }}"
+#    owner: "{{ solana_user }}"
+#    group: "{{ solana_user }}"
+#    state: directory
+#    mode: '0755'
+#  tags:
+#    - config.solana_user
+#    - validator.service.solana

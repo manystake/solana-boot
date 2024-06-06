@@ -5,11 +5,15 @@
     path: /var/lib/apt/lists/
     state: directory
     mode: 0755
+  tags:
+    - config.packages
 
 - name: 📦 Update apt cache
   become: yes
   apt:
     update_cache: yes
+  tags:
+    - config.packages
 
 - name: 📦 Install additional packages
   become: yes
