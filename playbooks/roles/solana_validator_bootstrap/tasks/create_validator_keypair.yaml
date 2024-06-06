@@ -12,7 +12,7 @@
   become_user: "{{ solana_user}}"
   environment:
     PATH: "{{ env_path }}"
-  when: not validator_keypair.stat.exists
+  when: not funded_validator_keypair.stat.exists
   tags:
     - create.validator_keypair
 
