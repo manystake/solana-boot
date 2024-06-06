@@ -27,7 +27,7 @@
 - name: mount ledger disk
   become: true
   mount:
-    src: "/dev/{{ ledger_disk.device }}"
+    src: "/dev/{{ ledger_disk.device }}p1"
     path: "{{ ledger_disk.path }}"
     fstype: ext4
     opts: defaults
@@ -64,7 +64,7 @@
 - name: mount accounts disk
   become: true
   mount:
-    src: "/dev/{{ accounts_disk.device }}"
+    src: "/dev/{{ accounts_disk.device }}p1"
     path: "{{ accounts_disk.path }}"
     fstype: ext4
     opts: defaults
@@ -101,7 +101,7 @@
 - name: mount snapshots disk
   become: true
   mount:
-    src: "/dev/{{ snapshots_disk.device }}"
+    src: "/dev/{{ snapshots_disk.device }}p1"
     path: "{{ snapshots_disk.path }}"
     fstype: ext4
     opts: defaults

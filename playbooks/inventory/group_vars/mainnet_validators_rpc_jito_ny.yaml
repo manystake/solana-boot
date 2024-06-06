@@ -54,15 +54,15 @@ ntp: ntp.dallas.jito.wtf
 manage_disk: True
 ledger_disk:
   managed: True
-  device: nvme2
+  device: nvme2n1
   path: /mnt/solana_ledger
 accounts_disk:
   managed: True
-  device: nvme3
+  device: nvme3n1
   path: /mnt/solana_accounts
 snapshots_disk:
   managed: True
-  device: nvme4
+  device: nvme4n1
   path: /mnt/solana_snapshots
 identity_pubkey:
 jito_relayer_repo: https://github.com/jito-foundation/jito-relayer
