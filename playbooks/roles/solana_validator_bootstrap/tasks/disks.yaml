@@ -7,6 +7,18 @@
     state: directory
   when: ledger_disk.managed
 
+- name: ledger_disk info
+  community.general.parted: device="/dev/{{ ledger_disk.device }}" unit=MiB
+  register: sdb_info
+
+- name: Delete partition ledger_disk if exists
+  community.general.parted:
+    device: "/dev/{{ ledger_disk.device }}"
+    number: '{{ item.num }}'
+    state: absent
+  loop: '{{ sdb_info.partitions }}'
+  when: ledger_disk.managed
+
 - name: Create a ext4 filesystem for ledger
   community.general.parted:
     device: "/dev/{{ ledger_disk.device }}"
@@ -44,21 +56,33 @@
     state: directory
   when: accounts_disk.managed
 
-- name: Create a ext4 filesystem for accounts
-  become: true
-  filesystem:
-    fstype: ext4
-    dev: "/dev/{{ accounts_disk.device }}"
+- name: ledger_disk info
+  community.general.parted: device="/dev/{{ accounts_disk.device }}" unit=MiB
+  register: sdb_info
+
+- name: Delete partition accounts_disk if exists
+  community.general.parted:
+    device: "/dev/{{ accounts_disk.device }}"
+    number: '{{ item.num }}'
+    state: absent
+  loop: '{{ sdb_info.partitions }}'
   when: accounts_disk.managed
 
 #- name: Create a ext4 filesystem for accounts
-#  community.general.parted:
-#    device: "/dev/{{ accounts_disk.device }}"
-#    number: 1
-#    state: present
-#    label: gpt
-#    fs_type: ext4
+#  become: true
+#  filesystem:
+#    fstype: ext4
+#    dev: "/dev/{{ accounts_disk.device }}"
 #  when: accounts_disk.managed
+
+- name: Create a ext4 filesystem for accounts
+  community.general.parted:
+    device: "/dev/{{ accounts_disk.device }}"
+    number: 1
+    state: present
+    label: gpt
+    fs_type: ext4
+  when: accounts_disk.managed
 
 - name: mount accounts disk
   become: true
@@ -80,21 +104,33 @@
     state: directory
   when: snapshots_disk.managed
 
-- name: Create a ext4 filesystem for snapshots
-  become: true
-  filesystem:
-    fstype: ext4
-    dev: "/dev/{{ snapshots_disk.device }}"
+- name: snapshots_disk info
+  community.general.parted: device="/dev/{{ snapshots_disk.device }}" unit=MiB
+  register: sdb_info
+
+- name: Delete partition snapshots_disk if exists
+  community.general.parted:
+    device: "/dev/{{ snapshots_disk.device }}"
+    number: '{{ item.num }}'
+    state: absent
+  loop: '{{ sdb_info.partitions }}'
   when: snapshots_disk.managed
 
 #- name: Create a ext4 filesystem for snapshots
-#  community.general.parted:
-#    device: "/dev/{{ snapshots_disk.device }}"
-#    number: 1
-#    state: present
-#    label: gpt
-#    fs_type: ext4
+#  become: true
+#  filesystem:
+#    fstype: ext4
+#    dev: "/dev/{{ snapshots_disk.device }}"
 #  when: snapshots_disk.managed
+
+- name: Create a ext4 filesystem for snapshots
+  community.general.parted:
+    device: "/dev/{{ snapshots_disk.device }}"
+    number: 1
+    state: present
+    label: gpt
+    fs_type: ext4
+  when: snapshots_disk.managed
 
 - name: mount snapshots disk
   become: true
