@@ -16,7 +16,7 @@ cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
 solana_validator_service: stopped
 solana_metrics_url: 'https://metrics.solana.com:8086,db=mainnet-beta,u=mainnet-beta_write,p=password'
-solana_rpc_port: 28899
+solana_rpc_port: 8899
 expected_genesis_hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
 maximum_local_snapshot_age: 3000
 limit_ledger_size: 500000000

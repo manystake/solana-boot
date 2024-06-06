@@ -1,7 +1,7 @@
 ---
 all:
   children:
-    mainnet_validators_rpc_jito:
+    mainnet_validators_rpc_jito_ny:
       children:
         local:
           hosts:
