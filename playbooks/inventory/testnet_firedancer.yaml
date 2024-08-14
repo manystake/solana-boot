@@ -1,0 +1,9 @@
+---
+all:
+  children:
+    testnet_firedancer_validators:
+      children:
+        local:
+          hosts:
+            localhost:
+              #any var from group defaults:
