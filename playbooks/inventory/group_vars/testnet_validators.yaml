@@ -1,6 +1,6 @@
 ---
 mount_base_path: '/mnt/solana'
-swap_file_size_gb: '500'
+swap_file_size_gb: 0
 ramdisk_path: "{{ mount_base_path }}/ramdisk"
 ramdisk_size_gb: 400
 use_ramdisk_for_account: True
