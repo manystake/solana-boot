@@ -1,0 +1,29 @@
+user = "{{ firedancer_service_user }}"
+
+[gossip]
+entrypoints = [
+    {% for entrypoint in firedancer_entrypoints %}
+    "{{ entrypoint }}",
+    {% endfor %}
+]
+
+[consensus]
+identity_path = "/etc/firedancer/identity.json"
+vote_account_path = "/etc/firedancer/vote.json"
+
+known_validators = [
+    {% for known_validator in firedancer_known_validators %}
+    "{{ known_validator }}",
+    {% endfor %}
+]
+
+[rpc]
+port = {{ firedancer_rpc_port }}
+{% if firedancer_full_rpc_api %}
+full_api = true
+{% endif %}
+{% if firedancer_private_rpc %}
+private = true
+{% endif %}
+[ledger]
+path = "{{ firedancer_ledger }}"

@@ -9,6 +9,7 @@
 
 - name: GO >> delete previous installation
   become: true
+  become_user: ubuntu
   command: rm -rf /usr/local/go
   tags:
     - go.install

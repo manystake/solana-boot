@@ -1,0 +1,57 @@
+- name: Create code path if not exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ firedancer_code_path }}"
+    state: directory
+    mode: '755'
+    owner: "{{ firedancer_user }}"
+    group: "{{ firedancer_user }}"
+
+- name: "Clone repository v{{ firedancer_version }}"
+  become: true
+  become_user: "{{ firedancer_user }}"
+  ansible.builtin.git:
+    repo: 'https://github.com/firedancer-io/firedancer.git'
+    dest: "{{ firedancer_code_path }}/firedancer"
+    force: true
+    version: "v{{ firedancer_version }}"
+
+- name: Run deps.sh
+  become: true
+  become_user: "{{ firedancer_user }}"
+  ansible.builtin.shell: "FD_AUTO_INSTALL_PACKAGES=1 {{ code_path }}/firedancer/deps.sh fetch check install"
+
+- name: "Compile {{ firedancer_version }}"
+  become: true
+  become_user: "{{ firedancer_user }}"
+  ansible.builtin.shell: "PATH=$PATH:~/.cargo/bin make -j fdctl solana"
+  args:
+    chdir: "{{ firedancer_code_path }}/firedancer"
+
+- name: Copy binary to $PATH
+  become: true
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ firedancer_code_path }}/firedancer/build/native/gcc/bin/fdctl"
+    dest: "{{ firedancer_local_installation_path }}"
+
+- name: Template Firedancer service
+  become: true
+  ansible.builtin.template:
+    src: fd.service.j2
+    dest: /etc/systemd/system/fd.service
+    mode: '644'
+
+- name: Template config.toml
+  become: true
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: /etc/firedancer/config.toml
+    mode: '644'
+
+- name: Enable firedancer service
+  become: true
+  ansible.builtin.systemd_service:
+    name: fd
+    enabled: true
+    state: started
