@@ -1,0 +1,8 @@
+---
+- name: bootstrap firedancer validator
+  hosts: all
+  become: yes
+  roles:
+    - { role: configure_ubuntu }
+    - { role: rust }
+    - { role: firedancer }

@@ -5,7 +5,7 @@ ramdisk_path: "{{ mount_base_path }}/ramdisk"
 ramdisk_size_gb: 400
 use_ramdisk_for_account: True
 use_firewall: True
-solana_user: solana
+solana_user: firedancer
 solana_home: "/home/{{ solana_user }}"
 secrets_path: "/home/{{ solana_user }}/.secrets"
 solana_version: 1.17.1
@@ -35,11 +35,19 @@ known_validators:
   - Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN
   - eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ
   - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv
-jito_enable: false
-jito_block_engin_url:
-jito_relayer_url:
-jito_receiver_addr:
-jito_tip_payment_program_pubkey:
-jito_distribution_program_pubkey:
-jito_merkle_root_upload_authority:
-jito_commission_bps:
+### firedancer
+firedancer_version: v0.110.20005
+firedancer_user: firedancer
+firedancer_service_user: firedancer
+firedancer_code_path: "/home/{{ firedancer_user }}/code"
+firedancer_remote_installation_path: /usr/local/bin
+firedancer_rpc_port: 8899
+firedancer_private_rpc: true
+firedancer_known_validators:
+  - 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
+  - 141vSYKGRPNGieSrGJy8EeDVBcbjSr6aWkimNgrNZ6xN
+  - BFquPCAYdjN9QyLVfuGrQdJTF9Ct7Z85FDxhFeLcpFqR
+firedancer_entrypoints:
+  - entrypoint.testnet.solana.com:8001
+  - entrypoint2.testnet.solana.com:8001
+  - entrypoint3.testnet.solana.com:8001
