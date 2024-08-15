@@ -37,7 +37,7 @@ known_validators:
   - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv
 jito_enable: false
 ### firedancer
-firedancer_version: v0.110.20005
+firedancer_version: 0.110.20005
 firedancer_user: firedancer
 firedancer_service_user: firedancer
 firedancer_code_path: "/home/{{ firedancer_user }}/code"
