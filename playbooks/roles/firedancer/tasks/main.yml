@@ -42,6 +42,12 @@
     dest: /etc/systemd/system/fd.service
     mode: '644'
 
+- name: Create firedancer conf path
+  become: true
+  ansible.builtin.file:
+    path: /etc/firedancer
+    state: directory
+
 - name: Template config.toml
   become: true
   ansible.builtin.template:
