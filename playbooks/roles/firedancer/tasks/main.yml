@@ -19,7 +19,7 @@
 - name: Run deps.sh
   become: true
   become_user: "{{ firedancer_user }}"
-  ansible.builtin.shell: "FD_AUTO_INSTALL_PACKAGES=1 {{ code_path }}/firedancer/deps.sh fetch check install"
+  ansible.builtin.shell: "FD_AUTO_INSTALL_PACKAGES=1 {{ firedancer_code_path }}/firedancer/deps.sh fetch check install"
 
 - name: "Compile {{ firedancer_version }}"
   become: true
