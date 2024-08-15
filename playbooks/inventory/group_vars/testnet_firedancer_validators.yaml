@@ -35,6 +35,7 @@ known_validators:
   - Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN
   - eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ
   - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv
+jito_enable: false
 ### firedancer
 firedancer_version: v0.110.20005
 firedancer_user: firedancer
