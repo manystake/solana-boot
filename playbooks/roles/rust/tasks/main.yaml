@@ -12,9 +12,9 @@
 - name: install rust
   command: "/usr/local/sbin/rustup-install.sh -y"
   args:
-    chdir: /home/{{ solana_user }}/
+    chdir: "/home/{{ solana_user }}/"
   become: true
-  become_user: {{ solana_user }}
+  become_user: "{{ solana_user }}"
   register: install_output
   changed_when: false
   tags:
@@ -28,11 +28,11 @@
 - name: install rustfmt
   command: rustup component add rustfmt
   args:
-    chdir: /home/{{ solana_user }}/
+    chdir: "/home/{{ solana_user }}/"
   environment:
-    PATH: /bin:/usr/bin:/usr/local/bin:/home/{{ solana_user }}/.cargo/bin
+    PATH: "/bin:/usr/bin:/usr/local/bin:/home/{{ solana_user }}/.cargo/bin"
   become: true
-  become_user: {{ solana_user }}
+  become_user: "{{ solana_user }}"
   register: rustup_output
   changed_when: false
   tags:
