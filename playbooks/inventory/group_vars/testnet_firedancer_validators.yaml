@@ -41,7 +41,7 @@ firedancer_version: 0.110.20005
 firedancer_user: firedancer
 firedancer_service_user: firedancer
 firedancer_code_path: "/home/{{ firedancer_user }}/code"
-firedancer_remote_installation_path: /usr/local/bin
+firedancer_local_installation_path: /usr/local/bin
 firedancer_rpc_port: 8899
 firedancer_private_rpc: true
 firedancer_known_validators:
