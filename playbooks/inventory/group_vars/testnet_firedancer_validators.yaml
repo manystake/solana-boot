@@ -45,6 +45,7 @@ firedancer_local_installation_path: /usr/local/bin
 firedancer_rpc_port: 8899
 firedancer_private_rpc: true
 firedancer_full_rpc_api: true
+firedancer_ledger: /mnt/solana/ledger
 firedancer_known_validators:
   - 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
   - 141vSYKGRPNGieSrGJy8EeDVBcbjSr6aWkimNgrNZ6xN
