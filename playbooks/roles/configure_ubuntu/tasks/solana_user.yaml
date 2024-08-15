@@ -25,7 +25,7 @@
     path: "{{ secrets_path }}"
     state: directory
     mode: '0700'
-    owner: solana
+    owner: "{{ solana_user }}"
   tags:
     - config.solana_user
     - validator.service.solana
