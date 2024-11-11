@@ -1,16 +1,17 @@
 ---
+rpc: True
 create_validator_keypair: True
 full_rpc: True
 mount_base_path: '/mnt/solana'
 swap_file_size_gb: 0
 ramdisk_path: "{{ mount_base_path }}/ramdisk"
-ramdisk_size_gb: 0
-use_ramdisk_for_account: False
+ramdisk_size_gb: 500
+use_ramdisk_for_account: True
 use_firewall: True
 solana_user: solana
 solana_home: "/home/{{ solana_user }}"
 secrets_path: "/home/{{ solana_user }}/.secrets"
-solana_version: 1.17.34
+solana_version: 2.0.15
 env_path: "{{ solana_home }}/.local/share/solana/install/active_release/bin"
 cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
@@ -41,7 +42,7 @@ known_validators:
   - GwHH8ciFhR8vejWCqmg8FWZUCNtubPY2esALvy5tBvji
   - 6WgdYhhGE53WrZ7ywJA15hBVkw7CRbQ8yDBBTwmBtAHN
   - 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2
-jito_enable: True
+jito_enable: False
 jito_block_engine_url: https://ny.mainnet.block-engine.jito.wtf
 jito_relayer_enable: False
 jito_relayer_url: http://ny.mainnet.relayer.jito.wtf:8100
@@ -51,17 +52,17 @@ jito_distribution_program_pubkey: 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7
 jito_merkle_root_upload_authority: GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib
 jito_commission_bps: 800
 ntp: ntp.dallas.jito.wtf
-manage_disk: True
+manage_disk: False
 ledger_disk:
-  managed: True
+  managed: False
   device: nvme2n1
   path: /mnt/solana_ledger
 accounts_disk:
-  managed: True
+  managed: False
   device: nvme3n1
   path: /mnt/solana_accounts
 snapshots_disk:
-  managed: True
+  managed: False
   device: nvme4n1
   path: /mnt/solana_snapshots
 identity_pubkey:

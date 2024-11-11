@@ -20,7 +20,7 @@
     - { name: 'kernel.timer_migration', value: '0'}
     - { name: 'kernel.hung_task_timeout_secs', value: '30'}
     - { name: 'kernel.pid_max', value: '49152'}
-    - { name: 'vm.swappiness', value: '30'}
+    - { name: 'vm.swappiness', value: '0'}
     - { name: 'vm.max_map_count', value: '2000000'}
     - { name: 'vm.stat_interval', value: '10'}
     - { name: 'vm.dirty_ratio', value: '40'}
