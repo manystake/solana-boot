@@ -35,13 +35,12 @@ entrypoints:
   - entrypoint4.mainnet-beta.solana.com:8001
   - entrypoint5.mainnet-beta.solana.com:8001
 known_validators:
-  - DE1bawNcRJB9rVm3buyMVfr8mBEoyyu73NBovf2oXJsJ
-  - GdnSyH3YtwcxFvQrVVJMm1JhTS4QVX7MFsX56uJLUfiZ
-  - CakcnaRDHka2gXyfbEd2d3xsvkJkqsLw2akB3zsN1D2S
-  - C1ocKDYMCm2ooWptMMnpd5VEB2Nx4UMJgRuYofysyzcA
-  - GwHH8ciFhR8vejWCqmg8FWZUCNtubPY2esALvy5tBvji
-  - 6WgdYhhGE53WrZ7ywJA15hBVkw7CRbQ8yDBBTwmBtAHN
-  - 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2
+  - 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
+  - dDzy5SR3AXdYWVqbDEkVFdvSPCtS9ihF5kJkHCtXoFs
+  - eoKpUABi59aT4rR9HGS3LcMecfut9x7zJyodWWP43YQ
+  - 7XSY3MrYnK8vq693Rju17bbPkCN3Z7KvvfvJx4kdrsSY
+  - Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN
+  - 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv
 jito_enable: False
 jito_block_engine_url: https://ny.mainnet.block-engine.jito.wtf
 jito_relayer_enable: False
