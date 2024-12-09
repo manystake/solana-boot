@@ -7,7 +7,7 @@
 
 - name: check solana cli installed
   stat:
-    path: /home/solana/.local/share/solana/install/active_release/bin/solana-install
+    path: /home/solana/.local/share/solana/install/active_release/bin/agave-install
   register: solana_exists
   tags:
     - solana.cli.install

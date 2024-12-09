@@ -10,7 +10,7 @@ use_firewall: True
 solana_user: solana
 solana_home: "/home/{{ solana_user }}"
 secrets_path: "/home/{{ solana_user }}/.secrets"
-solana_version: 1.17.34
+solana_version: 2.0.18
 env_path: "{{ solana_home }}/.local/share/solana/install/active_release/bin"
 cluster_rpc_address: 'https://api.mainnet-beta.solana.com'
 validator_log_path: "{{ mount_base_path }}/log"
@@ -21,8 +21,8 @@ expected_genesis_hash: 5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d
 maximum_local_snapshot_age: 3000
 limit_ledger_size: 500000000
 ledger_path: /mnt/solana_ledger/ledger
-accounts_path: /mnt/solana_accounts/accounts
-snapshots_path: /mnt/solana_snapshots/snapshots
+accounts_path: /mnt/solana_account/accounts
+snapshots_path: /mnt/solana_snapshot/snapshots
 open_solana_ports_start: 8000
 open_solana_ports_end: 10000
 expected_shred_version: 50093
@@ -51,17 +51,17 @@ jito_distribution_program_pubkey: 4R3gSG8BpU4t19KYj8CfnbtRpnT8gtk4dvTHxVRwc2r7
 jito_merkle_root_upload_authority: GZctHpWXmsZC1YHACTGGcHhYxjdRqQvTpYkb9LMvxDib
 jito_commission_bps: 800
 ntp: ntp.dallas.jito.wtf
-manage_disk: True
+manage_disk: False
 ledger_disk:
-  managed: True
+  managed: False
   device: nvme2n1
   path: /mnt/solana_ledger
 accounts_disk:
-  managed: True
+  managed: False
   device: nvme3n1
   path: /mnt/solana_accounts
 snapshots_disk:
-  managed: True
+  managed: False
   device: nvme4n1
   path: /mnt/solana_snapshots
 identity_pubkey:

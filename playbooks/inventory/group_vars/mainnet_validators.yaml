@@ -21,7 +21,7 @@ maximum_local_snapshot_age: 3000
 limit_ledger_size: 50000000
 ledger_path: /mnt/solana_ledger/ledger
 accounts_path: "{{ ramdisk_path }}/accounts"
-snapshots_path: /mnt/solana/snapshots
+snapshots_path: /mnt/solana_snapshot/snapshots
 open_solana_ports_start: 8000
 open_solana_ports_end: 10000
 expected_shred_version: 50093
@@ -40,7 +40,7 @@ known_validators:
   - GwHH8ciFhR8vejWCqmg8FWZUCNtubPY2esALvy5tBvji
   - 6WgdYhhGE53WrZ7ywJA15hBVkw7CRbQ8yDBBTwmBtAHN
   - 7Np41oeYqPefeNQEHSv1UDhYrehxin3NStELsSKCT4K2
-jito_enable: false
+jito_enable: true
 jito_block_engine_url:
 jito_relayer_url:
 jito_receiver_addr:

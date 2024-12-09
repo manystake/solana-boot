@@ -44,10 +44,10 @@ TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM=$(ssh $TRANSITIONAL_NODE
 [ "$TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE_SHA1SUM" != "$(cat {{ secrets_path }}/funded-validator-keypair.json | sha1sum)"  ] && { echo "Funded validator keypair must be the same on each nodes"; exit 1; }
 
 # Wait for a restart window
-solana-validator -l {{ ledger_path }} wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
+agave-validator -l {{ ledger_path }} wait-for-restart-window --min-idle-time 2 --skip-new-snapshot-check
 
 # Stop voting operation on the currently voting node
-solana-validator -l {{ ledger_path }} set-identity {{ secrets_path }}/unfunded-validator-keypair.json
+agave-validator -l {{ ledger_path }} set-identity {{ secrets_path }}/unfunded-validator-keypair.json
 sleep 1s
 
 # Move symlink to unfunded validator keypair to prevent this node to vote concurrently in case of service restart
@@ -57,7 +57,7 @@ ln -sf {{ secrets_path }}/unfunded-validator-keypair.json {{ secrets_path }}/val
 scp {{ ledger_path }}/tower-1_9-"$(solana-keygen pubkey {{ secrets_path }}/funded-validator-keypair.json)".bin $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP:$TRANSITIONAL_NODE_LEDGER_DIR
 
 # Start voting operation in the transitioned node
-ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "$TRANSITIONAL_NODE_SOLANA_PATH/solana-validator -l $TRANSITIONAL_NODE_LEDGER_DIR set-identity --require-tower $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE"
+ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "$TRANSITIONAL_NODE_SOLANA_PATH/agave-validator -l $TRANSITIONAL_NODE_LEDGER_DIR set-identity --require-tower $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE"
 
 # Move symlink to funded validator keypair to permit vote operation in case of service restart
 ssh $TRANSITIONAL_NODE_SOLANA_USER@$TRANSITIONAL_NODE_IP "ln -sf $TRANSITIONAL_NODE_FUNDED_VALIDATOR_KEYPAIR_FILE $TRANSITIONAL_NODE_SECRET_DIR/validator-keypair.json"

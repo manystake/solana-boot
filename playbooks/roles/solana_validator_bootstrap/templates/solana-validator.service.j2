@@ -18,7 +18,7 @@ Environment="SHRED_RECEIVER_ADDR={{ jito_receiver_addr }}"
 {% if jito_relayer_enable %}
 Environment="RELAYER_URL={{ jito_relayer_url }}"
 {% endif %}
-ExecStart={{ env_path }}/solana-validator \
+ExecStart={{ env_path }}/agave-validator \
 --identity {{ secrets_path }}/validator-keypair.json \
 --vote-account {{ secrets_path }}/vote-account-keypair.json \
 --authorized-voter /home/solana/.secrets/funded-validator-keypair.json \
@@ -33,8 +33,8 @@ ExecStart={{ env_path }}/solana-validator \
 --known-validator {{ known_validator }} \
 {% endfor %}
 --wal-recovery-mode skip_any_corrupted_record \
---limit-ledger-size {{ limit_ledger_size }} \
---log {{ validator_log_path }}/solana-validator.log \
+--limit-ledger-size \
+--log {{ validator_log_path }}/agave-validator.log \
 --maximum-incremental-snapshots-to-retain 2 \
 --ledger {{ ledger_path }} \
 --accounts {{ accounts_path }} \
@@ -47,15 +47,6 @@ ExecStart={{ env_path }}/solana-validator \
 --commission-bps {{ jito_commission_bps }} \
 --block-engine-url ${BLOCK_ENGINE_URL} \
 --shred-receiver-address ${SHRED_RECEIVER_ADDR} \
-{% endif %}
-{% if jito_relayer_enable %}
---relayer-url ${RELAYER_URL} \
-{% endif %}
-{% if full_rpc %}
---rpc-bind-address 127.0.0.1 \
---full-rpc-api \
---account-index program-id spl-token-mint spl-token-owner \
---account-index-include-key AddressLookupTab1e1111111111111111111111111 \
 {% endif %}
 --expected-shred-version {{ expected_shred_version }}
 
