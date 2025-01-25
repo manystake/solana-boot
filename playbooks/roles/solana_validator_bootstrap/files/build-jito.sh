@@ -125,7 +125,7 @@ rustup component add rustfmt
 
 rustup update
 
-git clone https://github.com/jito-foundation/jito-solana.git --recurse-submodules
+git clone https://github.com/defnotzed/jito-solana.git --recurse-submodules
 
 TAG=$_arg_tag_version
 

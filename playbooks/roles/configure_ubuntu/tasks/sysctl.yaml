@@ -33,3 +33,4 @@
     - { name: 'net.core.rmem_default', value: '134217728'}
     - { name: 'net.core.wmem_max', value: '134217728'}
     - { name: 'net.core.wmem_default', value: '134217728'}
+    - { name: 'fs.file-max', value: '1024000'}
